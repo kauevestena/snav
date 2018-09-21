@@ -1,0 +1,4 @@
+[Desktop Entry]
+Name=KILL DRIVERS
+Type=Application
+Exec=killall xterm

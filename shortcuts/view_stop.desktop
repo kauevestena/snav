@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=VIEW STOP
+Type=Application
+Exec=bash view_kill.sh
+Terminal=false
+StartupNotify=false
+Path=/home/ubuntu/snav_ws/snav/scripts/

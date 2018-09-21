@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=vnc_fullscr
+Type=Application
+Exec=vncserver :1 -geometry 1920x1080
+Terminal=true
+X-KeepTerminal=true
+StartupNotify=false

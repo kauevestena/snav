@@ -1,3 +1,4 @@
 [Desktop Entry]
+Name=shortcuts
 Type=Application
 Exec=pcmanfm /home/ubuntu/snav_ws/snav/shortcuts

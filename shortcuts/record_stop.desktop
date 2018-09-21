@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=STOP RECORD
+Type=Application
+Exec=bash stop_rec_script.sh
+Terminal=false
+StartupNotify=false
+Path=/home/ubuntu/snav_ws/snav/scripts/
+GenericName=kill_rosbag_record
