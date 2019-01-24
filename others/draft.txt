@@ -1,0 +1,3 @@
+def hex_decode(commandString):
+    commandString = commandString.replace(" ","")
+    return commandString.decode()
