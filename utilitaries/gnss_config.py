@@ -43,6 +43,26 @@ ser.write(HexToByte(constellations))
 automotive = "B5 62 06 24 24 00 FF FF 04 02 00 00 00 00 10 27 00 00 0A 00 FA 00 FA 00 64 00 5E 01 00 3C 00 00 00 00 00 00 00 00 00 00 00 00 86 1B"
 ser.write(HexToByte(automotive))
 
+# remove GLL msg
+noGLL = "B5 62 06 01 08 00 F0 01 00 00 00 00 00 00 00 2A"
+ser.write(HexToByte(noGLL))
+
+# remove GSA msg
+noGSA = "B5 62 06 01 08 00 F0 02 00 00 00 00 00 00 01 31"
+ser.write(HexToByte(noGSA))
+
+# remove GSV msg
+noGSV = "B5 62 06 01 08 00 F0 03 00 00 00 00 00 00 02 38"
+ser.write(HexToByte(noGSV))
+
+# enable NAV-POSECEF
+enPOSECEF = "B5 62 06 01 08 00 01 01 00 00 00 01 00 00 12 B5"
+ser.write(HexToByte(enPOSECEF))
+
+# enable GST
+enGST = "B5 62 06 01 08 00 F0 07 00 00 00 01 00 00 07 57"
+ser.write(HexToByte(enGST))
+
 print "done!"
 
 ser.close()
