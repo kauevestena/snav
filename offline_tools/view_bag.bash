@@ -6,8 +6,9 @@ sleep 5
 
 source /home/kaue/kalibr_workspace/devel/setup.bash
 
+bagpath=$(head -n 1 $HOME/snav/configurations/current_bag.txt)
 
-rosbag play $1 &
+rosbag play $bagpath &
 
 sleep 2
 
