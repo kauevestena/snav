@@ -11,4 +11,6 @@ with open(os.environ['HOME']+'/snav/configurations/current_bag.txt') as f:
 from rosbag import Bag
 with Bag(os.environ['HOME']+'/rosbags/renamed.bag', 'w') as Y:
     for topic, msg, t in Bag(bagpath):
-        Y.write('imu0' if topic == 'imu/data' else topic, msg, t)
+        Y.write('/imu0' if topic == 'imu/data' else topic, msg, t)
+
+print "done"

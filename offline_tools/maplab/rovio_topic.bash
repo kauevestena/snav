@@ -21,8 +21,12 @@ rosrun rovioli rovioli \
   --ncamera_calibration=$NCAMERA_CALIBRATION  \
   --imu_parameters_maplab=$IMU_PARAMETERS_MAPLAB \
   --imu_parameters_rovio=$IMU_PARAMETERS_ROVIO \
-  --datasource_type="rosbag" \
+  --datasource_type="rostopic" \
   --save_map_folder="$LOCALIZATION_MAP_OUTPUT" \
-  --optimize_map_to_localization_map=false \
   --map_builder_save_image_as_resources=false \
-  --datasource_rosbag="$ROSBAG"
+  --optimize_map_to_localization_map=false $REST &
+
+  sleep 5
+
+  xterm -hold -e rosbag play $bagpath &
+
