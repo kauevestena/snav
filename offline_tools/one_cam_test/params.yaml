@@ -1,0 +1,26 @@
+camera1:
+  image_raw:
+    compressed: {format: jpeg, jpeg_quality: 80, png_level: 9}
+    compressedDepth: {depth_max: 10.0, depth_quantization: 100.0, png_level: 9}
+    theora: {keyframe_frequency: 64, optimize_for: 1, quality: 31, target_bitrate: 800000}
+  mycam1: {auto_exposure: 32645, auto_exposure_priority: 0, auto_focus: false, auto_hue: false,
+    auto_white_balance: false, backlight_compensation: 0, brightness: 0, camera_info_url: '',
+    contrast: 0, exposure_absolute: 6.9272804862928e-310, focus_absolute: 0, frame_id: camera,
+    frame_rate: 10.0, gain: 0, gamma: 1.0, height: 480, hue: 0.0, index: 0, iris_absolute: 1.0e-323,
+    pan_absolute: 1, power_line_frequency: 0, privacy: false, product: '0x0825', roll_absolute: 0,
+    saturation: 0, scanning_mode: 512807272, serial: '', sharpness: 0, tilt_absolute: 0,
+    timestamp_method: start, vendor: '0x046d', video_mode: yuyv, white_balance_BU: 0.0,
+    white_balance_RV: 0.0, white_balance_temperature: 10760, width: 640}
+rosdistro: 'kinetic
+
+  '
+roslaunch:
+  uris: {host_kauelape__33156: 'http://kauelape:33156/', host_kauelape__33451: 'http://kauelape:33451/',
+    host_kauelape__35055: 'http://kauelape:35055/', host_kauelape__35132: 'http://kauelape:35132/',
+    host_kauelape__36981: 'http://kauelape:36981/', host_kauelape__39326: 'http://kauelape:39326/',
+    host_kauelape__41315: 'http://kauelape:41315/', host_kauelape__43517: 'http://kauelape:43517/',
+    host_kauelape__45433: 'http://kauelape:45433/', host_kauelape__46167: 'http://kauelape:46167/'}
+rosversion: '1.12.14
+
+  '
+run_id: fd293f0e-289b-11e9-ba7e-1c872cc59d5c

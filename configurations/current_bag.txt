@@ -1,1 +1,1 @@
-/home/kauevestena/rosbags/2019-01-22-17-04-51.bag
+/home/kauevestena/rosbags/2019-01-31-15-57-40.bag
