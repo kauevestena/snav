@@ -12,7 +12,7 @@
       <param name="width" value="352"/>
       <param name="height" value="288"/>
       <!-- choose whichever uncompressed format the camera supports: -->
-      <param name="video_mode" value="yuyv"/> <!-- or yuyv/nv12/mjpeg -->
+      <param name="video_mode" value="mjpeg"/> <!-- or yuyv/nv12/mjpeg -->
 
       <param name="frame_rate" value="30"/>
 

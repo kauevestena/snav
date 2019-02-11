@@ -8,6 +8,7 @@ sleep 2
 echo $1 | sudo -S chmod o+w /dev/bus/usb/001/004
 echo $1 | sudo -S chmod o+w /dev/bus/usb/001/005
 echo $1 | sudo -S chmod o+w /dev/bus/usb/001/013
+echo $1 | sudo -S chmod o+w /dev/bus/usb/001/012
 
 # rosbag record --buffsize 1 --chunksize 32 camera1/image_raw
 
