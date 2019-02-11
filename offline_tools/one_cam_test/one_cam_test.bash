@@ -6,6 +6,9 @@ sleep 2
 
 #O+W ACCES FOR CAMERAS
 echo $1 | sudo -S chmod o+w /dev/bus/usb/001/004
-# echo $1 | sudo -S chmod o+w /dev/bus/usb/001/005
+echo $1 | sudo -S chmod o+w /dev/bus/usb/001/005
+echo $1 | sudo -S chmod o+w /dev/bus/usb/001/013
+
+# rosbag record --buffsize 1 --chunksize 32 camera1/image_raw
 
 roslaunch /home/kauevestena/snav/offline_tools/one_cam_test/one_cam.xml

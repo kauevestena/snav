@@ -6,8 +6,15 @@ sleep 5
 
 source /home/kaue/kalibr_workspace/devel/setup.bash
 
+if [ -z "$1" ] 
+then 
 bagpath=$(head -n 1 $HOME/snav/configurations/current_bag.txt)
+else
+bagpath=$1
+fi
 
+# rosbag play $bagpath & 
+#  to play in another rate: 
 rosbag play $bagpath &
 
 sleep 2
