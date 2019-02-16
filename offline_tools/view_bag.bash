@@ -4,7 +4,7 @@ xterm -hold -e roscore &
 
 sleep 5
 
-source /home/kaue/kalibr_workspace/devel/setup.bash
+source $HOME/kalibr_workspace/devel/setup.bash
 
 if [ -z "$1" ] 
 then 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $HOME/catkin_ws/devel/setup.bash
+
 roscore &
 
 sleep 2
@@ -12,4 +14,4 @@ echo $1 | sudo -S chmod o+w /dev/bus/usb/001/012
 
 # rosbag record --buffsize 1 --chunksize 32 camera1/image_raw
 
-roslaunch /home/kauevestena/snav/offline_tools/one_cam_test/one_cam.xml
+roslaunch $HOME/snav/offline_tools/one_cam_test/one_cam.xml

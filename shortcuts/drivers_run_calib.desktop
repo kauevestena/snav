@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=DRIVERS
+Type=Application
+Exec=bash drivers_script_calib.sh
+Terminal=false
+StartupNotify=false
+Path=/home/ubuntu/snav_ws/snav/scripts/
+GenericName=kill_rosbag_record
