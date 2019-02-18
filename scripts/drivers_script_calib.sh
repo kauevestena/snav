@@ -3,7 +3,7 @@
 source /home/ubuntu/snav_ws/devel/setup.bash
 
 #IMU DRIVER
-xterm -hold -e roslaunch /home/ubuntu/snav_ws/src/ros_bno055_driver/launch/bosch_bno055_driver.launch &
+xterm -hold -e roslaunch /home/ubuntu/snav_ws/src/ros_bno055_driver/launch/bosch_bno055_driver_notemp.launch &
 
 sleep 5
 
@@ -20,7 +20,7 @@ xterm -hold -e rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 
 sleep 5
 
 #CAMERAS DRIVER
-xterm -hold -e roslaunch $HOME/snav/launchfiles/camerav2_1280x960_10fps.launch &
+xterm -hold -e roslaunch $HOME/snav_ws/snav/launchfiles/camerav2_1280x960_10fps.launch &
 
 echo "fim"
 

@@ -2,8 +2,10 @@
 
 source /home/ubuntu/snav_ws/devel/setup.bash
 
+sleep 5
+
 #IMU DRIVER
-xterm -hold -e roslaunch /home/ubuntu/snav_ws/src/ros_bno055_driver/launch/bosch_bno055_driver.launch &
+xterm -hold -e roslaunch /home/ubuntu/snav_ws/src/ros_bno055_driver/launch/bosch_bno055_driver_notemp.launch &
 
 sleep 5
 
