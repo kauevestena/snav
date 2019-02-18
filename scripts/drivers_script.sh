@@ -20,7 +20,7 @@ xterm -hold -e rosrun nmea_navsat_driver nmea_serial_driver _port:=/dev/ttyUSB0 
 sleep 5
 
 #CAMERAS DRIVER
-xterm -hold -e roslaunch $HOME/snav/launchfiles/camerav2_1280x960.launch &
+xterm -hold -e roslaunch $HOME/snav_ws/snav/launchfiles/camerav2_1280x960.launch &
 
 echo "fim"
 
