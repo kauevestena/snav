@@ -1,4 +1,7 @@
 [Desktop Entry]
 Name=KILL DRIVERS
 Type=Application
-Exec=killall xterm
+Exec=bash stop_drivers.sh
+Path=/home/ubuntu/snav_ws/snav/scripts/
+Terminal=true
+X-KeepTerminal=false
