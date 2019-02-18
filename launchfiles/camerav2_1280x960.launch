@@ -19,5 +19,10 @@
     <param name="height" value="960"/>
 
     <param name="framerate" value="90"/>
+
+    <param name="awb_mode" value="off"/>
+
+    <param name="awb_gains" value="4.0"/>
+    
   </node>
 </launch>

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=START RECORD
+Type=Application
+Exec=bash /home/ubuntu/snav_ws/snav/scripts/record_script_compressed.sh
+Terminal=true
+StartupNotify=false
+Path=/home/ubuntu/rosbags
+GenericName=
+Name[en]=_S_RECORD compressed
+X-KeepTerminal=true

@@ -1,0 +1,21 @@
+bno055_driver: {frame_id: imu_frame}
+bno_calib_file: /home/ubuntu/snav_ws/snav/current_calib/calib_imu.json
+nmea_serial_driver: {baud: 9600, port: /dev/ttyUSB0}
+raspicam_node: {ISO: 400, awb_mode: auto, brightness: 50, camera_frame_id: raspicam,
+  camera_id: 0, camera_info_url: 'package://raspicam_node/camera_info/camerav2_1280x960.yaml',
+  camera_name: camerav2_1280x960, contrast: 0, enable_imv: false, enable_raw: false,
+  exposure_compensation: 0, exposure_mode: auto, framerate: 90, hFlip: false, height: 960,
+  private_topics: false, saturation: 0, sharpness: 0, shutter_speed: 0, vFlip: false,
+  video_stabilisation: false, width: 1280, zoom: 1.0}
+rosdistro: 'kinetic
+
+  '
+roslaunch:
+  uris: {host_ubiquityrobot__37205: 'http://ubiquityrobot:37205/', host_ubiquityrobot__44563: 'http://ubiquityrobot:44563/',
+    host_ubiquityrobot__46447: 'http://ubiquityrobot:46447/', host_ubiquityrobot_local__46481: 'http://ubiquityrobot.local:46481/'}
+rosversion: '1.12.13
+
+  '
+rqt_gui_cpp_node_3372:
+  compressed: {mode: unchanged}
+run_id: f6466f26-33a0-11e9-8049-b827eb1b635f
