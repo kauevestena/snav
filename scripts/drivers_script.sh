@@ -2,6 +2,9 @@
 
 source /home/ubuntu/snav_ws/devel/setup.bash
 
+#configuring GPS
+python /home/ubuntu/snav_ws/snav/utilitaries/gnss_config.py
+
 sleep 5
 
 #IMU DRIVER
