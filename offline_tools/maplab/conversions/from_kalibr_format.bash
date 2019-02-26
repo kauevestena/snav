@@ -5,4 +5,7 @@
 
 rosrun kalibr kalibr_maplab_config --to-ncamera \
     --label snav \
-    --cam $1
+    --cam $1 \
+    --out $HOME/Dropbox/Mestrado/maplab/parameter_files/sensors.yaml
+
+nautilus $HOME/Dropbox/Mestrado/maplab/parameter_files
