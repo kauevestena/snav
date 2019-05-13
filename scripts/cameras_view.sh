@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /home/ubuntu/snav_ws/devel/setup.bash
+source $HOME/snav_ws/devel/setup.bash
 
 # #xterm -hold -e 
 # rosrun image_view image_view image:=/camera1/image_raw compressed &

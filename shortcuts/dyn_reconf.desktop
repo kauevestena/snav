@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=dyn reconf
+Type=Application
+Exec=bash dynamic_reconf.bash
+Terminal=false
+StartupNotify=false
+Path=/home/ubuntu/snav_ws/snav/scripts/
