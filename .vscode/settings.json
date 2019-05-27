@@ -1,5 +1,6 @@
 {
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
-    "python.linting.prospectorEnabled": false
+    "python.linting.prospectorEnabled": false,
+    "python.pythonPath": "/usr/bin/python3"
 }
