@@ -23,10 +23,20 @@ print(accStd)
 #standart error
 angVelSem   = stats.sem(angVelData,0)
 accSem      = stats.sem(accData,0)
-# oriStd      = numpy.std(oriData,0)
+oriStd      = numpy.std(oriData,0)
 
 print(angVelSem)
 print(accSem)
+
+print("        self.imu_msg.orientation_covariance[0] = 0.5")
+print("        self.imu_msg.orientation_covariance[4] = 0.5")  
+print("        self.imu_msg.orientation_covariance[8] = 1.0")
+print("        self.imu_msg.angular_velocity_covariance[0] = "    + str(angVelStd[0]) )
+print("        self.imu_msg.angular_velocity_covariance[4] = "    + str(angVelStd[1]) )
+print("        self.imu_msg.angular_velocity_covariance[8] = "    + str(angVelStd[2]) )
+print("        self.imu_msg.linear_acceleration_covariance[0] = " + str(accStd[0]) )
+print("        self.imu_msg.linear_acceleration_covariance[4] = " + str(accStd[1]) )
+print("        self.imu_msg.linear_acceleration_covariance[8] = " + str(accStd[2]) )
 
 h1 = plt.hist(angVelData,20)
 plt.show(h1)

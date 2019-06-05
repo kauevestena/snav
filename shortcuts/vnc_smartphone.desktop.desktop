@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=vnc_fullscr
+Type=Application
+Exec=vncserver :1 -geometry 270x570
+Terminal=true
+X-KeepTerminal=true
+StartupNotify=false
+Name[en_US]=vnc_smartphone.desktop
