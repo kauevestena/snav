@@ -6,5 +6,5 @@ Terminal=true
 StartupNotify=false
 Path=/home/ubuntu/rosbags
 GenericName=
-Name[en]=_START_RECORD compressed
+Name[en]=_S_RECORD compressed
 X-KeepTerminal=true

@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=vnc_smartphone
 Type=Application
-Exec=vncserver :1 -geometry 270x570
+Exec=vncserver :2 -geometry 270x520
 Terminal=true
 X-KeepTerminal=true
 StartupNotify=false
