@@ -20,7 +20,7 @@
 
     <param name="framerate" value="30"/>
 
-     <param name="awb_mode" value="auto"/> 
+     <param name="awb_mode" value="awb_sun"/> 
 
     <!-- <param name="awb_gains" value="1"/> -->
 

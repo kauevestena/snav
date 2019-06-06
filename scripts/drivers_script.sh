@@ -26,7 +26,7 @@ sleep 5
 
 #CAMERAS DRIVER
 xterm -hold -e roslaunch $HOME/snav_ws/snav/launchfiles/logi_cam.xml &
-xterm -hold -e roslaunch $HOME/snav_ws/snav/launchfiles/camerav2_1280x960.launch &
+xterm -hold -e roslaunch $HOME/snav_ws/snav/launchfiles/camerav2_1280x960_ndvi.launch &
 
 echo "fim"
 
