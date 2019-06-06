@@ -10,6 +10,7 @@
 
     <param name="camera_frame_id" value="$(arg camera_frame_id)"/>
     <param name="enable_raw" value="$(arg enable_raw)"/>
+    <param name="ISO" value="100"/>
     <param name="enable_imv" value="$(arg enable_imv)"/>
     <param name="camera_id" value="$(arg camera_id)"/>
 
@@ -21,6 +22,11 @@
     <param name="framerate" value="1"/>
 
      <param name="awb_mode" value="sun"/> 
+
+    <param name="exposure_mode" value="antishake"/>
+    <param name="shutter_speed" value="5000"/>
+
+    <param name="quality" value="100"/>
 
      <!-- <param name="awb_gains" value="(0.558,1.3242)"/>  -->
 
