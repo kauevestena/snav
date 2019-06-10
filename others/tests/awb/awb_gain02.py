@@ -18,11 +18,11 @@ camera.iso = 100
 
 sleep(2)
 
-# r_gain = 0.74
-# b_gain = 1.18
+r_gain = 0.6
+b_gain = 1.18
 
-r_gain = 2
-b_gain = 4
+# r_gain = 2
+# b_gain = 4
 
 camera.awb_mode = 'off'
 camera.awb_gains = (Fraction(r_gain),Fraction(b_gain))
