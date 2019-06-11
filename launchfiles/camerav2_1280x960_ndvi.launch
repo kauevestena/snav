@@ -19,7 +19,7 @@
     <param name="width" value="1280"/>
     <param name="height" value="960"/>
 
-    <param name="framerate" value="1"/>
+    <param name="framerate" value="5"/>
 
      <param name="awb_mode" value="sun"/> 
 
