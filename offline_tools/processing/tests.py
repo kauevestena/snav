@@ -1,18 +1,19 @@
 import numpy as np
 
 
-a = np.array([2.3,-1.27])
+a = np.array([[1,1,1],[2,2,2],[3,3,3]])
 
-listTest = [a,a*2,a*-5]
+b = np.array([1,2,3])
 
-asArray = np.array(listTest)
+# b = np.append(a,np.ones(3),axis=0)
 
-lista = [1,2,3,4]
+c = np.matmul(a,b)
 
-for item in lista:
-    item+=1
-
-print(lista)
+print(c)
 
 
+d = [1,2]
 
+d = tuple(d)
+
+print(d)

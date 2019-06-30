@@ -4,6 +4,9 @@ import numpy as np
 def teste():
     print("teste")
 
+def imDims(img):
+    return np.flip(np.array(img.shape[0:2]))
+
 def checkPercent(percent):
     if percent <= 100 and percent >= 0:
         return True
@@ -11,7 +14,7 @@ def checkPercent(percent):
         return False
 
 def percentRound(dimension,percent):
-    return int(round(dimension*(percent/100)))
+    return int(round(dimension*(percent/100.0)))
 
 def cutImage(image,percent):
     if not checkPercent(percent):
@@ -84,8 +87,12 @@ def prepareListOfPoints(pointList,scaleFactor):
         newList.append(point-mins)
     
     maxx = np.max(maxOfPointList(newList))
-    print(maxx)
+    # print(maxx)
     return listOfPointsXscalar(newList,scaleFactor)
+
+def removePListYcoord(inputList):
+    asMat = np.array(inputList)[:,[0,2]]
+    return pMat_to_List(asMat)
 
 def edgeDetection(image,showImg=False,showStack=False):
     ### thx: https://blog.sicara.com/opencv-edge-detection-tutorial-7c3303f10788 (modified)
@@ -111,3 +118,19 @@ def edgeDetection(image,showImg=False,showStack=False):
         cv2.waitKey(0)
 
     return edges_filtered
+
+def addOnes(pointArray):
+    result = []
+    for point in pointArray:
+        result.append(np.append(point,np.array([1])))
+    return result
+
+def transformListOfPtsPerspective(listOfPoints,transformation):
+    """ the function spects that the transformation is a 3x3 matrix """
+    listOfPoints = addOnes(listOfPoints)
+    transformed = []
+    for point in listOfPoints:
+        temp = np.matmul(transformation,point)
+        temp = np.array([temp[0]/temp[2],temp[1]/temp[2]])
+        transformed.append(temp)
+    return transformed
