@@ -21,10 +21,10 @@ hplat  = 0.15
 height = hcar+hplat
 
 #percentual to cut
-pctToCut = 45
+pctToCut = 35
 
 #scale factor to be applied (10 means that pixels will be on decimeters, 100 on centimeters, and so on):
-scaleFactor = 10
+scaleFactor = 100
 
 # print(height)
 """" ############################# """
@@ -39,27 +39,35 @@ imList = sorted(glob.glob(imPath+'/*.jpg'),key=os.path.getmtime)
 #reading at first some image
 imSample = cv2.imread(imList[random.randint(0,len(imList)-1)])
 
-bfs.edgeDetection(imSample,True,True)
+# bfs.edgeDetection(imSample,True,True)
 
 cutted = bfs.cutImage(imSample,pctToCut)
+
+# print(imSample.shape)
+# print(cutted.shape)
 
 cv2.imshow("sample",cutted)
 cv2.waitKey(0)
 
-imSize = np.flip(np.array(imSample.shape[0:2]))
+imSize = bfs.imDims(imSample)
 
-# print(imSize)
+imCutSize = bfs.imDims(cutted)
+
+print(imCutSize)
 
 # pixel size ("tp")
 tp = sensorDims[0]/imSize[0]
 
 #generating 4 points
-pointsToProject = [
-    bfs.pointAtPercent(imSize,0,100-pctToCut)-imSize*0.5,
-    bfs.pointAtPercent(imSize,100,100-pctToCut)-imSize*0.5,
-    bfs.pointAtPercent(imSize,100,100)-imSize*0.5,
-    bfs.pointAtPercent(imSize,0,100)-imSize*0.5
+
+pointsToProject0 = [
+    bfs.pointAtPercent(imSize,0,100-pctToCut),
+    bfs.pointAtPercent(imSize,100,100-pctToCut),
+    bfs.pointAtPercent(imSize,100,100),
+    bfs.pointAtPercent(imSize,0,100)
     ]
+
+pointsToProject = pointsToProject0 - imSize*0.5
 
 pointsToProjectMeters = []
 for point in pointsToProject:
@@ -82,8 +90,36 @@ for vector in linesToProject:
     projPoints.append(bfs.linePlaneIntersection(vector,planePt,vector,planeNorm))
 
 coordsToTransform = bfs.prepareListOfPoints(projPoints,scaleFactor)
+coordsToTransform = bfs.removePListYcoord(coordsToTransform)
 
-for point in coordsToTransform:
-    print(point)
 
-H = cv2.findHomography()
+pointsToProjectCut = [
+    bfs.pointAtPercent(imCutSize,0,0),
+    bfs.pointAtPercent(imCutSize,100,0),
+    bfs.pointAtPercent(imCutSize,100,100),
+    bfs.pointAtPercent(imCutSize,0,100)
+    ]
+
+for i in range(len(coordsToTransform)):
+    # print(coordsToTransform[i],pointsToProjectCut[i])
+    print((coordsToTransform[i][0],coordsToTransform[i][1]))
+
+H = cv2.findHomography(np.array(pointsToProjectCut),np.array(coordsToTransform),0)
+
+
+# temp = bfs.addOnes(pointsToProjectCut)
+# temp = np.array(temp)
+
+# # print(cv2.perspectiveTransform(temp,H[0]))
+
+
+transformedPtSample = bfs.transformListOfPtsPerspective(pointsToProjectCut,H[0])
+
+outSize = np.array(bfs.maxOfPointList(transformedPtSample),dtype='uint16')
+
+print(outSize)
+
+transformedCut = cv2.warpPerspective(cutted,H[0],tuple(outSize))
+cv2.namedWindow("warped",0)
+cv2.imshow("warped",transformedCut)
+cv2.waitKey(0)
