@@ -7,6 +7,12 @@ def teste():
 def imDims(img):
     return np.flip(np.array(img.shape[0:2]))
 
+def point2DasString(point,invertY=False):
+    if invertY:
+        return str(point[0])+'\t'+str(-point[1])+'\n'
+    else:
+        return str(point[0])+'\t'+str(point[1])+'\n'
+
 def checkPercent(percent):
     if percent <= 100 and percent >= 0:
         return True
@@ -24,12 +30,15 @@ def cutImage(image,percent):
         newHeight = percentRound(imSize[0],percent)
         return image[imSize[0]-newHeight:,:]
 
-def pointAtPercent(imSize,pCol,pRow):
+def pointAtPercent(imSize,pCol,pRow,invertY=False):
     if (not checkPercent(pCol)) or (not checkPercent(pRow)):
         return np.array([-1,-1])
     else:
         x = percentRound(imSize[0],pCol)
-        y = percentRound(imSize[1],pRow)
+        if invertY:
+            y = -percentRound(imSize[1],pRow)
+        else:
+            y = percentRound(imSize[1],pRow)
         return np.array([x,y])
 
 def normalize(v):
@@ -90,8 +99,10 @@ def prepareListOfPoints(pointList,scaleFactor):
     # print(maxx)
     return listOfPointsXscalar(newList,scaleFactor)
 
-def removePListYcoord(inputList):
+def removePListYcoord(inputList,invertY=False):
     asMat = np.array(inputList)[:,[0,2]]
+    if invertY:
+        asMat = asMat * np.array([1,-1])
     return pMat_to_List(asMat)
 
 def edgeDetection(image,showImg=False,showStack=False):

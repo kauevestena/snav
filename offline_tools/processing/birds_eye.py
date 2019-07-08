@@ -9,6 +9,14 @@ from processing_functions import birdsfuncs as bfs
 # # path="/home/kaue/snav/offline_tools/processing"
 # # os.chdir(path)
 
+myPath = os.environ['HOME']+'/snav/offline_tools/processing/'
+outPath = os.environ['HOME']+'/data/rectified'
+
+try:
+    os.mkdir(outPath)
+except:
+    pass
+
 """ CONSTANTS """
 
 # sensor size
@@ -26,15 +34,20 @@ pctToCut = 35
 #scale factor to be applied (10 means that pixels will be on decimeters, 100 on centimeters, and so on):
 scaleFactor = 100
 
+
+transformAll = True
+
 # print(height)
 """" ############################# """
 
 # print(sensorDims)
 
 # imPath = "/home/kaue/data/extracted_images/2019-06-13-15-33-34/ngr"
-imPath = "/home/kaue/data/extracted_images/2019-06-13-15-43-38/ngr"
+imPath = os.environ['HOME']+'/data/extracted_images/2019-06-13-15-43-38/ngr'
 
-imList = sorted(glob.glob(imPath+'/*.jpg'),key=os.path.getmtime)
+inputList = glob.glob(imPath+'/*.jpg')
+
+imList = sorted(inputList,key=os.path.getmtime)
 
 #reading at first some image
 imSample = cv2.imread(imList[random.randint(0,len(imList)-1)])
@@ -65,6 +78,11 @@ pointsToProject0 = [
     bfs.pointAtPercent(imSize,100,100-pctToCut),
     bfs.pointAtPercent(imSize,100,100),
     bfs.pointAtPercent(imSize,0,100)
+
+    # bfs.pointAtPercent(imSize,0,100),
+    # bfs.pointAtPercent(imSize,100,100),
+    # bfs.pointAtPercent(imSize,100,100-pctToCut),
+    # bfs.pointAtPercent(imSize,0,100-pctToCut)    
     ]
 
 pointsToProject = pointsToProject0 - imSize*0.5
@@ -98,14 +116,32 @@ pointsToProjectCut = [
     bfs.pointAtPercent(imCutSize,100,0),
     bfs.pointAtPercent(imCutSize,100,100),
     bfs.pointAtPercent(imCutSize,0,100)
+
+    # bfs.pointAtPercent(imCutSize,0,100),
+    # bfs.pointAtPercent(imCutSize,100,100),
+    # bfs.pointAtPercent(imCutSize,100,0),
+    # bfs.pointAtPercent(imCutSize,0,0)
     ]
 
-for i in range(len(coordsToTransform)):
-    # print(coordsToTransform[i],pointsToProjectCut[i])
-    print((coordsToTransform[i][0],coordsToTransform[i][1]))
+
+outPts = open(myPath+'points.txt','w')
+
+for point in pointsToProjectCut:
+    outPts.write(bfs.point2DasString(point))
+    # outPts.write(bfs.point2DasString(point,True))
+
+
+
+for point in coordsToTransform:
+    outPts.write(bfs.point2DasString(point))
+
+outPts.close()
 
 H = cv2.findHomography(np.array(pointsToProjectCut),np.array(coordsToTransform),0)
 
+
+# for i in range(len(coordsToTransform)):
+#     print(coordsToTransform[])
 
 # temp = bfs.addOnes(pointsToProjectCut)
 # temp = np.array(temp)
@@ -119,7 +155,19 @@ outSize = np.array(bfs.maxOfPointList(transformedPtSample),dtype='uint16')
 
 print(outSize)
 
-transformedCut = cv2.warpPerspective(cutted,H[0],tuple(outSize))
+transformedCut = cv2.warpPerspective(cutted,H[0],dsize=tuple(outSize),flags=cv2.INTER_LINEAR)
+
+transformedCut = np.rot90(np.rot90(transformedCut))
+
 cv2.namedWindow("warped",0)
 cv2.imshow("warped",transformedCut)
 cv2.waitKey(0)
+
+if transformAll:
+    for i,imPath2 in enumerate(imList):
+        image = cv2.imread(imPath2)
+        image = bfs.cutImage(image,pctToCut)
+        transformedImg = cv2.warpPerspective(image,H[0],dsize=tuple(outSize),flags=cv2.INTER_LINEAR)
+        transformedImg = np.rot90(np.rot90(transformedImg))
+        outName = str(i)+'.jpg'
+        cv2.imwrite(os.path.join(outPath,outName),transformedImg)
