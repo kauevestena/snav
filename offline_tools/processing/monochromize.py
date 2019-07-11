@@ -1,4 +1,4 @@
-from processing_functions import monochrome as mn 
+from processing_functions import color_stuff as mn 
 import cv2
 import glob
 import os
