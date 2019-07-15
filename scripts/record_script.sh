@@ -6,6 +6,8 @@ source /home/ubuntu/snav_ws/devel/setup.bash
 
 # rosbag record /camera1/image_raw/compressed /camera2/image_raw/compressed imu/data /fix &
 
-rosbag record /camera1/image_raw /raspicam_node/image imu/data /fix /vel &
+# rosbag record /camera1/image_raw /raspicam_node/image imu/data /fix /vel &
+
+rosbag record /raspicam_node/image imu/data /fix /vel &
 
 /bin/bash

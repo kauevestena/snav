@@ -19,12 +19,12 @@
     <param name="width" value="1280"/>
     <param name="height" value="960"/>
 
-    <param name="framerate" value="5"/>
+    <param name="framerate" value="30"/>
 
      <param name="awb_mode" value="sun"/> 
 
     <param name="exposure_mode" value="antishake"/>
-    <param name="shutter_speed" value="5000"/>
+    <param name="shutter_speed" value="1000"/>
 
     <param name="quality" value="100"/>
 
