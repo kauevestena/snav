@@ -55,6 +55,10 @@ def fileNumberFromPath(filePath):
     fileName = filenameFromPath(filePath)
     return int(fileName.split('.')[0])
 
+def fileNumberFromPathAsStr(filePath):
+    fileName = filenameFromPath(filePath)
+    return fileName.split('.')[0]
+
 def writeToFile(filePath,stringToWrite):
     storageFile = open(filePath,'w')
     storageFile.write(stringToWrite)

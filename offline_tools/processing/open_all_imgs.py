@@ -4,6 +4,8 @@ from processing_functions import misc as msc
 
 defaultPath =  "/home/kaue/data/extracted_images/samples/2019-07-11-16-21-46/regular"
 
+basePath2 = "/home/kaue/data/extracted_images/2019-07-11-16-21-46/ngr"
+
 if len(sys.argv) < 2:
     # print("insert pathname")
     # sys.exit()
@@ -35,7 +37,13 @@ for filePath in filePathList:
     fileNumber = msc.fileNumberFromPath(filePath)
     # print(msc.readNumberFromFile(lastOpenedPath))
     if msc.readNumberFromFile(lastOpenedPath) < fileNumber: 
-        os.system("kolourpaint "+filePath)
+        fname = msc.fileNumberFromPathAsStr(filePath)+'.jpg'
+        print(fname)
+        fpath2 = os.path.join(basePath2,fname)
+        print(fpath2)
+        print(filePath)
+        os.system("kolourpaint "+filePath+" &")
+        os.system("eog "+fpath2)
         # os.system("gimp "+filePath)
         msc.writeToFile(lastOpenedPath,str(fileNumber))
 
