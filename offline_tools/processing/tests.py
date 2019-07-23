@@ -2,17 +2,17 @@ import numpy as np
 import cv2
 from processing_functions import general_funcs as gf
 from processing_functions import color_stuff as cs
+from processing_functions import misc as msc
+
+# test = [[293,3,0],[234,22]]
+
+# print(msc.listOfLists_npArrays(test))
 
 
-imsample = "/home/kaue/tests/imgs/3806.png"
+imPath = "/home/kauevestena/tests/CamVid/test_labels/0006R0_f01380_L.png"
 
-# img = cv2.imread(imsample)
+labels = [[0,128,128],[0,192,192]]
+labels = msc.listOfLists_npArrays(labels)
 
-# for column in img:
-#     for pixel in column:
-#         # pixel.itemset(0,200)
-#         # pixel.itemset(1,20)
-#         # pixel.itemset(2,20)
-#         print(pixel-np.array([1,1,1]))
+cs.remove_other_classes2(imPath,"test.png",labels)
 
-cs.chg_specific_pix_val(imsample,imsample,255,255,255,255,0,0)

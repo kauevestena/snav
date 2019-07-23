@@ -2,6 +2,7 @@ import re
 import os
 import ntpath
 import glob
+import numpy as np
 
 
 def find_datetime_String(inputStr,onlyDate=False):
@@ -69,3 +70,9 @@ def readNumberFromFile(filePath):
     number = int(storageFile.readline())
     storageFile.close()
     return number
+
+def listOfLists_npArrays(inputList):
+    outList = []
+    for item in inputList:
+        outList.append(np.array(item))
+    return outList

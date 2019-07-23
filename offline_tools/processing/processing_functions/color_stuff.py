@@ -33,6 +33,45 @@ def remove_other_classes(imPath,outPath,classR,classG,classB):
 
     cv2.imwrite(outPath,img)
 
+def trueInBoolList(inputList):
+    thereIs = False
+
+    for item in inputList:
+        if item:
+            # print("pass")
+            thereIs = True
+            break
+
+    return thereIs
+
+def remove_other_classes2(imPath,outPath,listOfClasses):
+    # print(listOfClasses)
+    """
+    mantains only the specified class, you can input a list of classes, must be a list of np_array
+    """
+    # TODO: check the input list
+     
+    img = cv2.imread(imPath)
+    for column in img:
+        for pixel in column:
+            test = []
+            for label in listOfClasses:
+                # print(pixel,label)
+                test.append(np.array_equal(pixel,label))
+
+            # print(test)
+            if trueInBoolList(test):
+                pixel.itemset(0,255)
+                pixel.itemset(1,255)
+                pixel.itemset(2,255)
+            else:
+                # print(pixel)
+                pixel.itemset(0,0)
+                pixel.itemset(1,0)
+                pixel.itemset(2,0)
+
+    cv2.imwrite(outPath,img)
+
 def allBlackImg(imPath,outPath):
     img = cv2.imread(imPath)
     for column in img:
