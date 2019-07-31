@@ -20,6 +20,10 @@ def createDir(dirPath):
     except:
         pass
 
+def createDirs(dirList):
+    for dirPath in dirList:
+        createDir(dirPath)
+
 def filenameFromPath(path):
     #thx https://is.gd/4331kj
     head, tail = ntpath.split(path)
@@ -91,3 +95,22 @@ def telegram_bot_sendtext(bot_message):
     send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
 
     response = requests.get(send_text)
+
+def removeBasedir(path,basepath):
+    return path.split(basepath)[1]
+
+def subpathList(pathList,basepath):
+    res = []
+
+    for path in pathList:
+        res.append(removeBasedir(path,basepath))
+
+    return res
+
+def createDirStructure(basepath,subpaths,printPath=False):
+    for subpath in subpaths:
+        # print(basepath,subpath)
+        finalPath = os.path.join(basepath,subpath)
+        createDir(finalPath)
+        if printPath:
+            print(finalPath)

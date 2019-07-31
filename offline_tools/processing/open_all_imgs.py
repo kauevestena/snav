@@ -2,6 +2,11 @@ import os
 import sys
 from processing_functions import misc as msc
 
+"""
+created to open all images, if you want to manually annotate with kolourpaint
+"""
+
+
 defaultPath =  "/home/kaue/data/extracted_images/samples/2019-07-11-16-21-46/regular"
 
 basePath2 = "/home/kaue/data/extracted_images/2019-07-11-16-21-46/ngr"
