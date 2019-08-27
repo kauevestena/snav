@@ -102,6 +102,10 @@ def removeBasedir(path,basepath):
     return path.split(basepath)[1]
 
 def subpathList(pathList,basepath):
+    """
+        return only relative subpath from a list of paths
+    """
+
     res = []
 
     for path in pathList:
@@ -124,3 +128,5 @@ def getModTime(filepath):
 def modFilenameExt(input,newExt='.png'):
     return fileNumberFromPathAsStr(input)+newExt
     
+def get_parent_dir(path):
+    return os.path.abspath(os.path.join(path, os.pardir))
