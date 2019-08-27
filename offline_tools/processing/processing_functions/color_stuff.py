@@ -120,3 +120,5 @@ def chg_specific_pix_val(imPath,outPath,vR=255,vG=255,vB=255,nvR=254,nvG=254,nvB
                 setPixelVal(pixel,nvB,nvG,nvR)
 
     cv2.imwrite(outPath,img)
+
+# def checkPixVal(pixel,vr)

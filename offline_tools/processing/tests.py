@@ -8,21 +8,14 @@ import os
 
 import requests
 
-def telegram_bot_sendtext(bot_message):
-    
-    # thx: https://is.gd/gaFK8s (Man Hay Hong)
-    configFilePath  = os.path.join(os.environ['HOME'],"Dropbox/telegram_bot.txt")
+imgpath = "/home/kaue/data/cityscapes_red/test/berlin/berlin_000000_000019_leftImg8bit.png"
+imgpath2 = "/home/kaue/data/cityscapes_original/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
 
-    storageFile = open(configFilePath,'r')
-    data = storageFile.readline()
+img = cv2.imread(imgpath)
 
-    bot_token = data.split(',')[0]
-    bot_chatID = data.split(',')[1]
-    send_text = 'https://api.telegram.org/bot' + bot_token + '/sendMessage?chat_id=' + bot_chatID + '&parse_mode=Markdown&text=' + bot_message
+# cv2.imshow(imgpath,img)
+# cv2.waitKey(0)
 
-    response = requests.get(send_text)
+# print(msc.fileNumberFromPathAsStr('test.png'))
 
-    
-
-test = telegram_bot_sendtext("oieeeeeee")
-
+print(img.shape)
