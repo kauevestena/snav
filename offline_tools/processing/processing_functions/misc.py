@@ -47,8 +47,13 @@ def orderedFileList(imPath,extension='*.jpg',option=0,printPath=False):
     if option == 1:
         return sorted(glob.glob(os.path.join(imPath,extension)))
 
-def getSubdirs(basedir):
-    return [x[0] for x in os.walk(basedir)]
+def getSubdirs(basedir,popFirst=False):
+    if not popFirst:
+        return [x[0] for x in os.walk(basedir)]
+    else:
+        resultList = [x[0] for x in os.walk(basedir)]
+        del resultList[0]
+        return resultList
 
 def checkForImages(inputPath,extension='*.jpg'):
     listOfPath = glob.glob(os.path.join(inputPath,extension))
