@@ -4,6 +4,8 @@ import ntpath
 import glob
 import numpy as np
 import requests
+import julian
+import datetime
 
 
 def find_datetime_String(inputStr,onlyDate=False):
@@ -124,5 +126,12 @@ def createDirStructure(basepath,subpaths,printPath=False):
         if printPath:
             print(finalPath)
 
+def getModTime(filepath):
+    #thx: https://is.gd/XkIKSX 
+    return datetime.datetime.fromtimestamp(os.path.getmtime(filepath))
+
+def modFilenameExt(input,newExt='.png'):
+    return fileNumberFromPathAsStr(input)+newExt
+    
 def get_parent_dir(path):
     return os.path.abspath(os.path.join(path, os.pardir))
