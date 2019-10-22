@@ -18,7 +18,7 @@ def save_one_band(imPath,outPath,channel=2):
     splitted = cv2.split(img)
     cv2.imwrite(outPath,splitted[channel])
 
-def remove_other_classes(imPath,outPath,classR,classG,classB):
+def remove_other_classes(imPath,outPath,classR,classG,classB,setR=0,setG=0,setB=0):
     """
     mantains only the specified class
     """
@@ -27,9 +27,9 @@ def remove_other_classes(imPath,outPath,classR,classG,classB):
     for column in img:
         for pixel in column:
             if not np.array_equal(pixel,classColor):
-                pixel.itemset(0,0)
-                pixel.itemset(1,0)
-                pixel.itemset(2,0)
+                pixel.itemset(0,setB)
+                pixel.itemset(1,setG)
+                pixel.itemset(2,setR)
 
     cv2.imwrite(outPath,img)
 

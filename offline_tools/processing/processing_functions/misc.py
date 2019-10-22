@@ -135,3 +135,16 @@ def modFilenameExt(input,newExt='.png'):
     
 def get_parent_dir(path):
     return os.path.abspath(os.path.join(path, os.pardir))
+
+def get_monitors_size():
+    from screeninfo import get_monitors
+
+    monitorslist = []
+    
+    for m in get_monitors():
+        monitorslist.append([m.x,m.y,m.height,m.width])
+
+    return monitorslist
+
+def get_window_id(part_of_winname):
+    return os.popen('xdotool search --onlyvisible --name '+part_of_winname).read()

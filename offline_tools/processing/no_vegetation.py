@@ -1,9 +1,13 @@
 from processing_functions import misc as msc
 from processing_functions import color_stuff as cs
+import os
 
-path = "/home/kaue/data/extracted_images/samples/2019-07-11-16-21-46/outliers_or_challenging/no_vegetation"
+path = "/home/kaue/data/politecnico/test"
+destpath = "/home/kaue/data/politecnico/test_labels"
 
 filelist = msc.orderedFileList(path)
 
 for filepath in filelist:
-    cs.allBlackImg(filepath,filepath)
+    filename = msc.fileNumberFromPathAsStr(filepath)+'.png'
+    print(filename)
+    cs.allBlackImg(filepath,os.path.join(destpath,filename))

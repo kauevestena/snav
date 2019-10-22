@@ -8,14 +8,18 @@ import os
 
 import requests
 
-imgpath = "/home/kaue/data/cityscapes_red/test/berlin/berlin_000000_000019_leftImg8bit.png"
-imgpath2 = "/home/kaue/data/cityscapes_original/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
+# imgpath = "/home/kaue/data/cityscapes_red/test/berlin/berlin_000000_000019_leftImg8bit.png"
+# imgpath2 = "/home/kaue/data/cityscapes_original/leftImg8bit/test/berlin/berlin_000000_000019_leftImg8bit.png"
 
-img = cv2.imread(imgpath)
+# img = cv2.imread(imgpath)
 
-# cv2.imshow(imgpath,img)
-# cv2.waitKey(0)
+# # cv2.imshow(imgpath,img)
+# # cv2.waitKey(0)
 
-# print(msc.fileNumberFromPathAsStr('test.png'))
+# # print(msc.fileNumberFromPathAsStr('test.png'))
 
-print(img.shape)
+# print(img.shape)
+
+import screeninfo
+
+# screeninfo.
