@@ -148,3 +148,7 @@ def get_monitors_size():
 
 def get_window_id(part_of_winname):
     return os.popen('xdotool search --onlyvisible --name '+part_of_winname).read()
+
+def joinToHome(inputPath):
+    homeDir = os.environ['HOME']
+    return os.path.join(homeDir,inputPath)
