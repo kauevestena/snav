@@ -4,7 +4,7 @@ import ntpath
 import glob
 import numpy as np
 import requests
-import julian
+# import julian
 import datetime
 
 
@@ -49,12 +49,13 @@ def orderedFileList(imPath,extension='*.jpg',option=0,printPath=False):
     if option == 1:
         return sorted(glob.glob(os.path.join(imPath,extension)))
 
-def getSubdirs(basedir,popFirst=False):
+def getSubdirs(basedir,popFirst=True):
     if not popFirst:
         return [x[0] for x in os.walk(basedir)]
     else:
         resultList = [x[0] for x in os.walk(basedir)]
-        del resultList[0]
+        # print(resultList[0])
+        del resultList[0] #otwerwise the list will include the basedir itself
         return resultList
 
 def checkForImages(inputPath,extension='*.jpg'):
@@ -136,6 +137,10 @@ def modFilenameExt(input,newExt='.png'):
 def get_parent_dir(path):
     return os.path.abspath(os.path.join(path, os.pardir))
 
+def get_only_parent_dir(path):
+    parent_dir = get_parent_dir(path)
+    return os.path.basename(os.path.normpath(parent_dir))
+
 def get_monitors_size():
     from screeninfo import get_monitors
 
@@ -149,6 +154,5 @@ def get_monitors_size():
 def get_window_id(part_of_winname):
     return os.popen('xdotool search --onlyvisible --name '+part_of_winname).read()
 
-def joinToHome(inputPath):
-    homeDir = os.environ['HOME']
-    return os.path.join(homeDir,inputPath)
+def joinToHome(input_path):
+    return os.path.join(os.environ['HOME'],input_path.strip('/'))
