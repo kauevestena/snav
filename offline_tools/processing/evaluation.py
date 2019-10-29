@@ -1,5 +1,14 @@
+import os
+from processing_functions import misc as msc
 
 
-total=512*512
+OPJ = os.path.join
+OE = os.environ
 
-print(100/total)
+
+pathsWithCheckpoints = [
+    msc.joinToHome("/data/checkpoints/deeplab_plus"),
+]
+
+gtImages = msc.joinToHome("/Dropbox/data/gt/originals")
+gtMasksVersions = msc.joinToHome("/Dropbox/data/gt/versions")
