@@ -25,8 +25,7 @@ for listOfCkpt in listsOfCkptFolders:
             validCkptFolders.append(ckptFolder)
         # else:
         #     print(ckptFolder)
-
-print(validCkptFolders)
+# print(validCkptFolders)
 
 # Ground Truth Images
 gtImages = msc.joinToHome("/Dropbox/data/gt/originals")
@@ -39,3 +38,12 @@ gtmDirs = msc.getSubdirs(gtMasksVersions)
 listOfListsOnDirs = []
 for dirPath in gtmDirs:
     listOfListsOnDirs.append(msc.orderedFileList(dirPath,'*.png'))
+
+
+# the list of checkpoints:
+ckptList = []
+for validckptpath in validCkptFolders:
+    ckptList.append(vd.checkpoint(validckptpath))
+
+for ckpt in ckptList:
+    print(ckpt.model,ckpt.dataset)
