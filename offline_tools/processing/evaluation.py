@@ -14,7 +14,10 @@ pathsWithCheckpoints = [
 listsOfCkptFolders = []
 for ckptPath in pathsWithCheckpoints:
     # print(ckptPath)
-    listsOfCkptFolders.append(msc.getSubdirs(ckptPath))
+    try:
+        listsOfCkptFolders.append(msc.getSubdirs(ckptPath))
+    except:
+        print("path "+ckptPath+" not avaliable")
 # print(listsOfCkptFolders)
 # removing invalid folders:
 validCkptFolders = []
@@ -33,11 +36,25 @@ gtImagesList = msc.orderedFileList(gtImages,'*.png')
 # print(gtImagesList)
 
 # Ground Truth Masks (gtm)
-gtMasksVersions = msc.joinToHome("/Dropbox/data/gt/versions")
+gtMasksVersions = msc.joinToHome("/Dropbox/data/gt_downsized")
 gtmDirs = msc.getSubdirs(gtMasksVersions)
 listOfListsOnDirs = []
 for dirPath in gtmDirs:
     listOfListsOnDirs.append(msc.orderedFileList(dirPath,'*.png'))
+
+# list of images and ground truth versions
+imgs_and_gts = []
+
+for i,imagepath in enumerate(gtImagesList):
+
+    img_gts = vd.img_and_gts(imagepath)
+
+    for a_list in listOfListsOnDirs:
+        img_gts.add_entry(a_list[i])
+
+    # img_gts.print_state()
+
+    imgs_and_gts.append(img_gts)
 
 
 # the list of checkpoints:
@@ -45,5 +62,11 @@ ckptList = []
 for validckptpath in validCkptFolders:
     ckptList.append(vd.checkpoint(validckptpath))
 
-for ckpt in ckptList:
-    print(ckpt.model,ckpt.dataset)
+# for ckpt in ckptList:
+#     print(ckpt.model,ckpt.dataset)
+
+
+# print(listOfListsOnDirs[0][0])
+
+# ckptList[0].process_image(gtImagesList[0])
+ckptList[0].process_and_validate(imgs_and_gts[0])

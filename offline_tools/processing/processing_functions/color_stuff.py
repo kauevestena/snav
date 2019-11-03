@@ -122,3 +122,29 @@ def chg_specific_pix_val(imPath,outPath,vR=255,vG=255,vB=255,nvR=254,nvG=254,nvB
     cv2.imwrite(outPath,img)
 
 # def checkPixVal(pixel,vr)
+
+def binarize_img(input_path, color_to_be_white: tuple):
+    img = cv2.imread(input_path)
+
+    cbw = color_to_be_white
+
+    # cv2.imshow('teste',img)
+    # cv2.waitKey(0)
+    # for column in img:
+    #     for pixel in column:
+    #         if np.array_equal(pixel,np.array(list(color_to_be_white))):
+    #             pixel.itemset(0,255)
+    #             pixel.itemset(1,255)
+    #             pixel.itemset(2,255)
+    #         else:
+    #             setPixelVal(pixel,0,0,0)
+
+    black_region=np.where((img[:,:,0] != cbw[0]) & (img[:,:,1] != cbw[1]) & (img[:,:,2] != cbw[2]))
+    white_region=np.where((img[:,:,2] == cbw[0]) & (img[:,:,1] == cbw[1]) & (img[:,:,0] == cbw[2]))
+
+
+    img[white_region]=(255,255,255)
+    img[black_region]=(0,0,0)
+
+
+    return img

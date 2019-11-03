@@ -16,4 +16,9 @@ def saveJPG_as_PNG(imPath,delete=False):
     cv2.imwrite(path2+'.png',img)
     if delete:
         os.remove(imPath)
+
+def resize_and_save(imgpath,outpath,width=512,height=512):
+    img = cv2.imread(imgpath)
+    resized_image = cv2.resize(img, (width, height),interpolation=cv2.INTER_NEAREST)
+    cv2.imwrite(outpath,resized_image)
      
