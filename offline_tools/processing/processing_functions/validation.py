@@ -2,8 +2,74 @@ import cv2
 import os
 import sys
 import subprocess
+import numpy as np
 import processing_functions.misc as msc
 import processing_functions.color_stuff as cs
+import pandas as pd
+
+
+# sss imports
+# sys.path.insert(0,msc.joinToHome("Semantic-Segmentation-Suite"))
+# # print(sys.path)
+# from utils import utils, helpers
+# # from msc.joinToHome("snav/utils") import utils, helpers
+
+
+
+METRIC_LIST = ["accuracy", "precision", "recall", "f1", "iou"]
+
+# # captal letters for global variables
+# #dictonary for binaries image
+# VEG_NOVEG_DICT = msc.joinToHome("/snav/configurations/class_dict.csv")
+# CNL, LV = helpers.get_label_info(VEG_NOVEG_DICT)
+# # num_classes = len(label_values)
+# NC = len(LV)
+
+def calc_iou(pred,gt):
+    #thx https://www.jeremyjordan.me/evaluating-image-segmentation-models/
+    intersection = np.logical_and(gt, pred)
+    union = np.logical_or(gt, pred)
+    return np.sum(intersection) / np.sum(union)
+
+
+
+def gen_error_metrics_dict(errormetric_tuple):
+    error_metrics = dict.fromkeys(METRIC_LIST)
+
+    for i,key in enumerate(error_metrics):
+        error_metrics[key] =  errormetric_tuple[i]
+
+    return error_metrics
+
+
+def error_metrics_dict(pred,gt,printSums = False):
+    TP = 0
+    TN = 0
+    FP = 0
+    FN = 0 
+
+    iou = calc_iou(pred,gt)
+
+    for i,column in enumerate(pred):
+        for j,pixel in enumerate(column):
+            if pixel[0] == gt[i,j,0] == 255:
+                TP += 1
+            elif pixel[0] == gt[i,j,0] == 0:
+                TN += 1
+            elif pixel[0] == 255 and gt[i,j,0] == 0:
+                FP += 1
+            elif pixel[0] == 0 and gt[i,j,0] == 255:
+                FN += 1
+
+    accuracy  = (TP+TN)/(TP+FP+FN+TN)
+    precision = (TP)/(TP+FP)
+    recall    = (TP)/(TP+FN)
+    f1        = 2*(recall * precision) / (recall + precision)
+
+    if(printSums):
+        print(TP,TN,FP,FN,TP+FP+FN+TN,pred.shape[0]*pred.shape[1])
+
+    return gen_error_metrics_dict((accuracy,precision,recall,f1,iou))
 
 
 def check_ckpt_folder(ckptfolderpath):
@@ -54,6 +120,10 @@ class checkpoint:
     model = ""
     dataset = ""
 
+    error_metrics_store = {}
+
+
+    outfolder = msc.joinToHome("snav/offline_tools/processing/csv")
 
     def __init__(self, basepath):
         self.basepath = basepath
@@ -83,7 +153,7 @@ class checkpoint:
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
 
-    def process_and_validate(self,img_gts: img_and_gts):
+    def process_and_validate(self,img_gts: img_and_gts,writeImg = False):
         runstring = "python3 {} --image {} --checkpoint {} --model {} --dataset {}".format(self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
 
         print('runstring: {}'.format(runstring))
@@ -94,7 +164,51 @@ class checkpoint:
         current_binarized = cs.binarize_img(pred_path,self.veg_color_tuple)
         print(self.veg_color_tuple)
 
-        cv2.imwrite(os.path.join(self.preds_path,img_gts.img_number+'_bzd.png'),current_binarized)
+        if (writeImg):
+            cv2.imwrite(os.path.join(self.preds_path,img_gts.img_number+'_bzd.png'),current_binarized)
+
+        # creating a dict with the versions
+        gt_versions = {}
+        
+        for key in img_gts.versions_dicts:
+            gt_versions[key] = cv2.imread(img_and_gts.versions_dicts[key])
+
+        if not self.error_metrics_store:
+            for key in gt_versions:
+                self.error_metrics_store[key] = []
+
+        print(self.error_metrics_store)
+        # doing the validation
+        # the error metric dict:
+        ckpt_em_dict = {} 
+
+        for key in gt_versions:
+            # gt = helpers.reverse_one_hot(helpers.one_hot_it(gt_versions[key], LV))
+            # current_binarized2 = helpers.reverse_one_hot(current_binarized)
+            # emTuple = utils.evaluate_segmentation(pred=current_binarized2, label=gt, num_classes=NC)
+            # ckpt_em_dict[key] = error_metrics_dict(emTuple)
+            # ckpt_em_dict[key] = error_metrics_dict(current_binarized,gt_versions[key],True)
+            self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key]))
+
+
+        print(self.error_metrics_store)
+        # print(ckpt_em_dict)
+        # for key in gt_versions:
+        #     cv2.imshow('test',gt_versions[key])
+        #     cv2.waitKey(0)
+
+        # print(gt_versions)
+
+    def dump_to_csvs(self):
+        if self.error_metrics_store:
+            try:
+                os.makedirs(self.outfolder)
+            except:
+                pass
+        for key in self.dataset_classdict:
+            keydf = pd.DataFrame(self.dataset_classdict[key])
+            # transform lines into lists and write'em to the files
+
 
 
 

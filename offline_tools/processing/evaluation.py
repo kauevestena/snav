@@ -70,3 +70,4 @@ for validckptpath in validCkptFolders:
 
 # ckptList[0].process_image(gtImagesList[0])
 ckptList[0].process_and_validate(imgs_and_gts[0])
+ckptList[0].process_and_validate(imgs_and_gts[1])

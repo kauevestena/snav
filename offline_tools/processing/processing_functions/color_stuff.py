@@ -139,9 +139,10 @@ def binarize_img(input_path, color_to_be_white: tuple):
     #         else:
     #             setPixelVal(pixel,0,0,0)
 
-    black_region=np.where((img[:,:,0] != cbw[0]) & (img[:,:,1] != cbw[1]) & (img[:,:,2] != cbw[2]))
-    white_region=np.where((img[:,:,2] == cbw[0]) & (img[:,:,1] == cbw[1]) & (img[:,:,0] == cbw[2]))
+    black_region = np.where((img[:,:,0] != cbw[0]) & (img[:,:,1] != cbw[1]) & (img[:,:,2] != cbw[2]))
+    white_region = np.where((img[:,:,2] == cbw[0]) & (img[:,:,1] == cbw[1]) & (img[:,:,0] == cbw[2]))
 
+    # print(white_region)
 
     img[white_region]=(255,255,255)
     img[black_region]=(0,0,0)
