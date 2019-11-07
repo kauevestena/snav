@@ -108,9 +108,9 @@ t1 = {'with_terrain_veg': [{'checkpoint': '/home/kauevestena/Dropbox/data/checkp
 
 # print(mydb1.all())
 # mydb1.all()
-
-# outDict = mydb1.all()
-
+# imgname
+# imgname
+# imgname
 # for entry in outDict:
 #     entry['rcd1'] = np.array(entry['rcd1'])
 
@@ -156,6 +156,7 @@ db = TinyDB("/home/kauevestena/Dropbox/data/tinydbs/validation/only_trees.json")
 
 # print(db.all())
 
-print(db.search(where('image') == '0359'))
+imgname  = '0359'
+ckptname = '/home/kauevestena/Dropbox/data/checkpoints/deeplab_plus/0012/model.ckpt'
 
-# db.purge_tables
+print(db.search((Query().checkpoint == imgname) & (Query().image == ckptname)))
