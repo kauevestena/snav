@@ -72,12 +72,14 @@
 
 import pandas as pd
 import numpy as np
+from tinydb import TinyDB, Query, where
 
-t1 = {'with_terrain_veg': [{'accuracy': 0.6908493041992188, 'precision': 0.6503000433052193, 'recall': 0.5723438237322589, 'f1': 0.608836675000724, 'iou': 0.437645719995559}, {'accuracy': 0.5722846984863281, 'precision': 0.4706205214209483, 'recall': 0.14005953029148063, 'f1': 0.2158737263184396, 'iou': 0.12099688766590622}], 'only_trees': [{'accuracy': 0.7885513305664062, 'precision': 0.709030169302786, 'recall': 0.7164916229057264, 'f1': 0.7127413687669074, 'iou': 0.5536893297690747}, {'accuracy': 0.6472663879394531, 'precision': 0.5534990089952737, 'recall': 0.18913061598733016, 'f1': 0.28192683135177954, 'iou': 0.16409477576184922}]}
 
-for key in t1:
-    for entry in t1[key]:
-        print(entry.values()) 
+t1 = {'with_terrain_veg': [{'checkpoint': '/home/kauevestena/Dropbox/data/checkpoints/deeplab_plus/0012/model.ckpt', 'image': '0359', 'accuracy': 0.7071266174316406, 'precision': 0.8746151429469055, 'recall': 0.2766663685240949, 'f1': 0.4203604297373408, 'iou': 0.26611161030072455}, {'checkpoint': '/home/kauevestena/Dropbox/data/checkpoints/deeplab_plus/0012/model.ckpt', 'image': '0437', 'accuracy': 0.612396240234375, 'precision': 0.48549038093274016, 'recall': 0.1637697146775588, 'f1': 0.24492070805404037, 'iou': 0.13954965406861042}], 'only_trees': [{'checkpoint': '/home/kauevestena/Dropbox/data/checkpoints/deeplab_plus/0012/model.ckpt', 'image': '0359', 'accuracy': 0.7330970764160156, 'precision': 0.8462142632736412, 'recall': 0.29274946471464125, 'f1': 0.4350073079935722, 'iou': 0.2779612391901096}, {'checkpoint': '/home/kauevestena/Dropbox/data/checkpoints/deeplab_plus/0012/model.ckpt', 'image': '0437', 'accuracy': 0.638092041015625, 'precision': 0.4577968947942138, 'recall': 0.16888932363841883, 'f1': 0.24674870980547836, 'iou': 0.14073778880727464}]}
+
+# for key in t1:
+#     for entry in t1[key]:
+#         print(entry.values()) 
 
 # print(t1)
 
@@ -107,38 +109,53 @@ for key in t1:
 # print(mydb1.all())
 # mydb1.all()
 
-outDict = mydb1.all()
+# outDict = mydb1.all()
 
-for entry in outDict:
-    entry['rcd1'] = np.array(entry['rcd1'])
+# for entry in outDict:
+#     entry['rcd1'] = np.array(entry['rcd1'])
 
-df2 = pd.DataFrame(outDict)
+# df2 = pd.DataFrame(outDict)
 
-print(df2)
+# print(df2)
 
-# print(outDict)
+# # print(outDict)
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-plt.close('all')
-
-
-# df2.plot()
-
-test_csv = "/home/kaue/snav/offline_tools/tests/test_data.csv"
-
-df3 = pd.read_csv(test_csv)
+# plt.close('all')
 
 
-plt.figure()
+# # df2.plot()
 
-print(df3)
+# test_csv = "/home/kaue/snav/offline_tools/tests/test_data.csv"
 
-df3.plot()
-
-import os
-
-scrpath = os.path.dirname(os.path.abspath(__file__))
+# df3 = pd.read_csv(test_csv)
 
 
-plt.savefig(os.path.join(scrpath,'figures/test_df.png'))
+# plt.figure()
+
+# print(df3)
+
+# df3.plot()
+
+# import os
+
+# scrpath = os.path.dirname(os.path.abspath(__file__))
+
+
+# plt.savefig(os.path.join(scrpath,'figures/test_df.png'))
+
+# for key in t1:
+#     for entry in t1[key]:
+#         print(entry)
+
+
+# print(t1)
+# /home/kauevestena/Dropbox/data/tinydbs/validation/only_trees.json
+db = TinyDB("/home/kauevestena/Dropbox/data/tinydbs/validation/only_trees.json")
+
+# print(db.all())
+
+print(db.search(where('image') == '0359'))
+
+# db.purge_tables

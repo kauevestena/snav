@@ -60,7 +60,10 @@ for i,imagepath in enumerate(gtImagesList):
 # the list of checkpoints:
 ckptList = []
 for validckptpath in validCkptFolders:
-    ckptList.append(vd.checkpoint(validckptpath))
+    if os.environ['HOME'] == '/home/kauevestena':
+        ckptList.append(vd.checkpoint(validckptpath,"python3.7"))
+    else:
+        ckptList.append(vd.checkpoint(validckptpath))
 
 # for ckpt in ckptList:
 #     print(ckpt.model,ckpt.dataset)
@@ -73,3 +76,5 @@ ckptList[0].process_and_validate(imgs_and_gts[0])
 ckptList[0].process_and_validate(imgs_and_gts[1])
 
 print(ckptList[0].error_metrics_store)
+
+ckptList[0].dump_to_tinyDB()

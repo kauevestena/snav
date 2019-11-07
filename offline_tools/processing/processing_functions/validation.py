@@ -6,6 +6,7 @@ import numpy as np
 import processing_functions.misc as msc
 import processing_functions.color_stuff as cs
 import pandas as pd
+from tinydb import TinyDB, Query
 
 
 # sss imports
@@ -15,8 +16,8 @@ import pandas as pd
 # # from msc.joinToHome("snav/utils") import utils, helpers
 
 
-
-METRIC_LIST = ["accuracy", "precision", "recall", "f1", "iou"]
+TINYDBS_PATH = msc.joinToHome("Dropbox/data/tinydbs/validation")
+METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "iou"]
 
 # # captal letters for global variables
 # #dictonary for binaries image
@@ -42,7 +43,7 @@ def gen_error_metrics_dict(errormetric_tuple):
     return error_metrics
 
 
-def error_metrics_dict(pred,gt,printSums = False):
+def error_metrics_dict(pred,gt,checkpoint,imagename,printSums = False):
     TP = 0
     TN = 0
     FP = 0
@@ -69,7 +70,7 @@ def error_metrics_dict(pred,gt,printSums = False):
     if(printSums):
         print(TP,TN,FP,FN,TP+FP+FN+TN,pred.shape[0]*pred.shape[1])
 
-    return gen_error_metrics_dict((accuracy,precision,recall,f1,iou))
+    return gen_error_metrics_dict((checkpoint,imagename,accuracy,precision,recall,f1,iou))
 
 
 def check_ckpt_folder(ckptfolderpath):
@@ -125,10 +126,11 @@ class checkpoint:
 
     outfolder = msc.joinToHome("snav/offline_tools/processing/csv")
 
-    def __init__(self, basepath):
+    def __init__(self, basepath,pythonVersion='python3'):
         self.basepath = basepath
         self.infospath   = os.path.join(self.basepath,self.infos_suffix)
-        self.ckpt_path = os.path.join(self.basepath,self.ckpt_suffix) 
+        self.ckpt_path = os.path.join(self.basepath,self.ckpt_suffix)
+        self.running_python = pythonVersion
 
 
 
@@ -147,14 +149,14 @@ class checkpoint:
                         self.veg_color_tuple = tuple(map(int,line.split('\n')[0].split(',')[1:4]))
 
     def process_image(self,imgpath):
-        runstring = "python3 {} --image {} --checkpoint {} --model {} --dataset {}".format(self.execpath,imgpath,self.ckpt_path,self.model,self.dataset)
+        runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,imgpath,self.ckpt_path,self.model,self.dataset)
 
         # print('runstring: {}'.format(runstring))
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
 
     def process_and_validate(self,img_gts: img_and_gts,writeImg = False):
-        runstring = "python3 {} --image {} --checkpoint {} --model {} --dataset {}".format(self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
+        runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
 
         print('runstring: {}'.format(runstring))
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
@@ -162,7 +164,7 @@ class checkpoint:
         pred_path = os.path.join(self.preds_path,img_gts.img_number+'_pred.png')
 
         current_binarized = cs.binarize_img(pred_path,self.veg_color_tuple)
-        print(self.veg_color_tuple)
+        # print(self.veg_color_tuple)
 
         if (writeImg):
             cv2.imwrite(os.path.join(self.preds_path,img_gts.img_number+'_bzd.png'),current_binarized)
@@ -177,7 +179,7 @@ class checkpoint:
             for key in gt_versions:
                 self.error_metrics_store[key] = []
 
-        print(self.error_metrics_store)
+        # print(self.error_metrics_store)
         # doing the validation
         # the error metric dict:
         ckpt_em_dict = {} 
@@ -188,10 +190,10 @@ class checkpoint:
             # emTuple = utils.evaluate_segmentation(pred=current_binarized2, label=gt, num_classes=NC)
             # ckpt_em_dict[key] = error_metrics_dict(emTuple)
             # ckpt_em_dict[key] = error_metrics_dict(current_binarized,gt_versions[key],True)
-            self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key]))
+            self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key],self.ckpt_path,img_gts.img_number))
 
 
-        print(self.error_metrics_store)
+        # print(self.error_metrics_store)
         # print(ckpt_em_dict)
         # for key in gt_versions:
         #     cv2.imshow('test',gt_versions[key])
@@ -199,18 +201,22 @@ class checkpoint:
 
         # print(gt_versions)
 
-    def dump_to_csvs(self):
-        if self.error_metrics_store:
-            try:
-                os.makedirs(self.outfolder)
-            except:
-                pass
-        for key in self.dataset_classdict:
-            keydf = pd.DataFrame(self.dataset_classdict[key])
-            # transform lines into lists and write'em to the files
+    # def dump_to_csvs(self):
+    #     if self.error_metrics_store:
+    #         try:
+    #             os.makedirs(self.outfolder)
+    #         except:
+    #             pass
+    #     for key in self.dataset_classdict:
+    #         keydf = pd.DataFrame(self.dataset_classdict[key])
+    #         # transform lines into lists and write'em to the files
 
-
-
+    def dump_to_tinyDB(self):
+        for key in self.error_metrics_store:
+            dbpath = os.path.join(TINYDBS_PATH,key+".json")
+            db = TinyDB(dbpath)
+            for entry in self.error_metrics_store[key]:
+                db.insert(entry)
 
 
 
