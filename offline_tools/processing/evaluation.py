@@ -1,4 +1,4 @@
-import os
+import os, time
 from processing_functions import validation as vd
 from processing_functions import misc as msc
 
@@ -72,9 +72,25 @@ for validckptpath in validCkptFolders:
 # print(listOfListsOnDirs[0][0])
 
 # ckptList[0].process_image(gtImagesList[0])
-ckptList[0].process_and_validate(imgs_and_gts[0])
-ckptList[0].process_and_validate(imgs_and_gts[1])
+# ckptList[0].process_and_validate(imgs_and_gts[0])
+# ckptList[0].process_and_validate(imgs_and_gts[1])
 
-print(ckptList[0].error_metrics_store)
 
-ckptList[0].dump_to_tinyDB()
+
+# print(ckptList[0].error_metrics_store)
+
+# ckptList[0].dump_to_tinyDB()
+
+print(len(ckptList),len(imgs_and_gts))
+
+total_its = len(ckptList) * len(imgs_and_gts)
+
+for i,ckpt in enumerate(ckptList):
+    for j,img in enumerate(imgs_and_gts):
+        beg = time.time()
+        ckpt.process_and_validate(img,True,False)
+        msc.print_rem_time_info(total_its,i*len(imgs_and_gts)+j,beg)
+    ckpt.dump_to_tinyDB()
+
+
+msc.telegram_bot_sendtext("evaluation done")

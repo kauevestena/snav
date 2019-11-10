@@ -7,6 +7,7 @@ import processing_functions.misc as msc
 import processing_functions.color_stuff as cs
 import pandas as pd
 from tinydb import TinyDB, Query
+import time
 
 
 # sss imports
@@ -155,7 +156,9 @@ class checkpoint:
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
 
-    def process_and_validate(self,img_gts: img_and_gts,writeImg = False):
+    def process_and_validate(self,img_gts: img_and_gts,writeImg = False,print_duration=True):
+        beg = time.time()
+
         runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
 
         print('runstring: {}'.format(runstring))
@@ -192,6 +195,9 @@ class checkpoint:
             # ckpt_em_dict[key] = error_metrics_dict(current_binarized,gt_versions[key],True)
             self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key],self.ckpt_path,img_gts.img_number))
 
+        if print_duration:
+            print("it tooked {}s to run".format(time.time()-beg))
+
 
         # print(self.error_metrics_store)
         # print(ckpt_em_dict)
@@ -212,11 +218,17 @@ class checkpoint:
     #         # transform lines into lists and write'em to the files
 
     def dump_to_tinyDB(self):
+        if not os.path.exists(TINYDBS_PATH):
+            os.makedirs(TINYDBS_PATH)
+
         for key in self.error_metrics_store:
             dbpath = os.path.join(TINYDBS_PATH,key+".json")
             db = TinyDB(dbpath)
             for entry in self.error_metrics_store[key]:
-                db.insert(entry)
+                if not db.search((Query().checkpoint == entry['checkpoint']) & (Query().image == entry['image'])):
+                    db.insert(entry)
+                else:
+                    print("{} not inserted".format(entry['image']))
 
 
 

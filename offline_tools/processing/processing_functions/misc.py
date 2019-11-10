@@ -6,6 +6,7 @@ import numpy as np
 import requests
 # import julian
 import datetime
+import time
 
 
 def find_datetime_String(inputStr,onlyDate=False):
@@ -156,3 +157,10 @@ def get_window_id(part_of_winname):
 
 def joinToHome(input_path):
     return os.path.join(os.environ['HOME'],input_path.strip('/'))
+
+def print_rem_time_info(total_it,curent_it,ref_time):
+    # "it" stands for 'iteration'
+    it_time  = time.time()-ref_time
+    rem_its  = total_it-curent_it
+    rem_time = it_time * rem_its
+    print("took {:.4f} seconds, estimated remaining time: {:.4f} minutes or {:.4f} hours".format(it_time,ref_time/60.0,rem_time/3600.0))
