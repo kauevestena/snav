@@ -7,6 +7,7 @@ import requests
 # import julian
 import datetime
 import time
+import hashlib
 
 
 def find_datetime_String(inputStr,onlyDate=False):
@@ -31,6 +32,9 @@ def filenameFromPath(path):
     #thx https://is.gd/4331kj
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
+
+def filenameFromPathWtithoutExt(path):
+    return filenameFromPath(path).split('.')[0]
 
 def pathWithoutFilename(path):
     head, tail = ntpath.split(path)
@@ -164,3 +168,16 @@ def print_rem_time_info(total_it,curent_it,ref_time):
     rem_its  = total_it-curent_it
     rem_time = it_time * rem_its
     print("took {:.4f} seconds, estimated remaining time: {:.4f} minutes or {:.4f} hours".format(it_time,ref_time/60.0,rem_time/3600.0))
+
+def create_dir_ifnot_exists(dirname):
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+
+def shortHash(inputstring,length=6,encoding='utf-8'):
+    h = hashlib.shake_256()
+    h.update(inputstring.encode(encoding))
+    return h.hexdigest(length)
+
+def reverseDict(inputDict):
+    # thx: https://stackoverflow.com/questions/483666/reverse-invert-a-dictionary-mapping
+    return {v: k for k, v in inputDict.items()}

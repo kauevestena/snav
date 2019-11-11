@@ -19,6 +19,7 @@ import time
 
 TINYDBS_PATH = msc.joinToHome("Dropbox/data/tinydbs/validation")
 METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "iou"]
+ONLY_METRICS = ["accuracy", "precision", "recall", "f1", "iou"]
 
 # # captal letters for global variables
 # #dictonary for binaries image
@@ -26,6 +27,9 @@ METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "io
 # CNL, LV = helpers.get_label_info(VEG_NOVEG_DICT)
 # # num_classes = len(label_values)
 # NC = len(LV)
+
+def getDBlist():
+    return msc.orderedFileList(TINYDBS_PATH,'*.json')
 
 def calc_iou(pred,gt):
     #thx https://www.jeremyjordan.me/evaluating-image-segmentation-models/
@@ -155,57 +159,69 @@ class checkpoint:
         # print('runstring: {}'.format(runstring))
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
+    def checkIfAlreadyExists(self,img_number):
+        db_list = getDBlist()
+
+        exists = False
+
+        for dbpath in db_list:
+            db = TinyDB(dbpath)  
+            if db.search((Query().checkpoint == self.ckpt_path) & (Query().image == img_number)):
+                exists = True
+
+        return exists
 
     def process_and_validate(self,img_gts: img_and_gts,writeImg = False,print_duration=True):
-        beg = time.time()
+        if not self.checkIfAlreadyExists(img_gts.img_number):
+            beg = time.time()
 
-        runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
+            runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
 
-        print('runstring: {}'.format(runstring))
-        subprocess.run(runstring,shell=True,cwd=self.sss_path)
+            print('runstring: {}'.format(runstring))
+            subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
-        pred_path = os.path.join(self.preds_path,img_gts.img_number+'_pred.png')
+            pred_path = os.path.join(self.preds_path,img_gts.img_number+'_pred.png')
 
-        current_binarized = cs.binarize_img(pred_path,self.veg_color_tuple)
-        # print(self.veg_color_tuple)
+            current_binarized = cs.binarize_img(pred_path,self.veg_color_tuple)
+            # print(self.veg_color_tuple)
 
-        if (writeImg):
-            cv2.imwrite(os.path.join(self.preds_path,img_gts.img_number+'_bzd.png'),current_binarized)
+            if (writeImg):
+                cv2.imwrite(os.path.join(self.preds_path,img_gts.img_number+'_bzd.png'),current_binarized)
 
-        # creating a dict with the versions
-        gt_versions = {}
-        
-        for key in img_gts.versions_dicts:
-            gt_versions[key] = cv2.imread(img_and_gts.versions_dicts[key])
+            # creating a dict with the versions
+            gt_versions = {}
+            
+            for key in img_gts.versions_dicts:
+                gt_versions[key] = cv2.imread(img_and_gts.versions_dicts[key])
 
-        if not self.error_metrics_store:
+            if not self.error_metrics_store:
+                for key in gt_versions:
+                    self.error_metrics_store[key] = []
+
+            # print(self.error_metrics_store)
+            # doing the validation
+            # the error metric dict:
+            ckpt_em_dict = {} 
+
             for key in gt_versions:
-                self.error_metrics_store[key] = []
+                # gt = helpers.reverse_one_hot(helpers.one_hot_it(gt_versions[key], LV))
+                # current_binarized2 = helpers.reverse_one_hot(current_binarized)
+                # emTuple = utils.evaluate_segmentation(pred=current_binarized2, label=gt, num_classes=NC)
+                # ckpt_em_dict[key] = error_metrics_dict(emTuple)
+                # ckpt_em_dict[key] = error_metrics_dict(current_binarized,gt_versions[key],True)
+                self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key],self.ckpt_path,img_gts.img_number))
 
-        # print(self.error_metrics_store)
-        # doing the validation
-        # the error metric dict:
-        ckpt_em_dict = {} 
-
-        for key in gt_versions:
-            # gt = helpers.reverse_one_hot(helpers.one_hot_it(gt_versions[key], LV))
-            # current_binarized2 = helpers.reverse_one_hot(current_binarized)
-            # emTuple = utils.evaluate_segmentation(pred=current_binarized2, label=gt, num_classes=NC)
-            # ckpt_em_dict[key] = error_metrics_dict(emTuple)
-            # ckpt_em_dict[key] = error_metrics_dict(current_binarized,gt_versions[key],True)
-            self.error_metrics_store[key].append(error_metrics_dict(current_binarized,gt_versions[key],self.ckpt_path,img_gts.img_number))
-
-        if print_duration:
-            print("it tooked {}s to run".format(time.time()-beg))
+            if print_duration:
+                print("it tooked {}s to run".format(time.time()-beg))
 
 
-        # print(self.error_metrics_store)
-        # print(ckpt_em_dict)
-        # for key in gt_versions:
-        #     cv2.imshow('test',gt_versions[key])
-        #     cv2.waitKey(0)
+            # print(self.error_metrics_store)
+            # print(ckpt_em_dict)
+            # for key in gt_versions:
+            #     cv2.imshow('test',gt_versions[key])
+            #     cv2.waitKey(0)
 
-        # print(gt_versions)
+            # print(gt_versions)
 
     # def dump_to_csvs(self):
     #     if self.error_metrics_store:
