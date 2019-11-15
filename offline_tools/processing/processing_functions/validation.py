@@ -67,10 +67,26 @@ def error_metrics_dict(pred,gt,checkpoint,imagename,printSums = False):
             elif pixel[0] == 0 and gt[i,j,0] == 255:
                 FN += 1
 
-    accuracy  = (TP+TN)/(TP+FP+FN+TN)
-    precision = (TP)/(TP+FP)
-    recall    = (TP)/(TP+FN)
-    f1        = 2*(recall * precision) / (recall + precision)
+    try:
+        accuracy  = (TP+TN)/(TP+FP+FN+TN)
+    except:
+        accuracy = 0.0
+
+    try:
+        precision = (TP)/(TP+FP)
+    except:
+        precision = 0.0
+
+    try:
+        recall = (TP)/(TP+FN)
+    except:
+        recall = 0.0
+
+    try: 
+        f1 = 2*(recall * precision) / (recall + precision)
+    except:
+        f1 = 0.0
+
 
     if(printSums):
         print(TP,TN,FP,FN,TP+FP+FN+TN,pred.shape[0]*pred.shape[1])

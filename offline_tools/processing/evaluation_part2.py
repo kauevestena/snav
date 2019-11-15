@@ -43,6 +43,8 @@ for db_path in db_list:
     # the default dict we can use for retrieve values, the reverse is for queries
     revCkptDict = msc.reverseDict(ckptDict)
 
+    # print(revCkptDict)
+
     zeroes = np.zeros((len(ckptSet),len(imgSet)))
 
     # # iterating through metrics 
@@ -95,7 +97,8 @@ for db_path in db_list:
         plt.savefig(os.path.join(outpath,'T_'+key+'.png'))
 
 
-
-
-
 print("tooked  {} s".format(time.time()-beg))
+
+
+for key in revCkptDict:
+    print("{} is {}".format(key,revCkptDict[key]))
