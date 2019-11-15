@@ -10,7 +10,8 @@ from processing_functions import misc as msc
 pathsWithCheckpoints = [
     msc.joinToHome("/Dropbox/data/checkpoints/deeplab_plus"),
     "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints",
-    "/home/kaue/Downloads/parts/checkpoints"
+    "/home/kaue/Downloads/parts/checkpoints",
+    "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints"
     ]
 listsOfCkptFolders = []
 for ckptPath in pathsWithCheckpoints:

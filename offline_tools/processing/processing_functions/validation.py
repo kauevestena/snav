@@ -35,7 +35,10 @@ def calc_iou(pred,gt):
     #thx https://www.jeremyjordan.me/evaluating-image-segmentation-models/
     intersection = np.logical_and(gt, pred)
     union = np.logical_or(gt, pred)
-    return np.sum(intersection) / np.sum(union)
+    try:
+        return np.sum(intersection) / np.sum(union)
+    except:
+        return 0.0
 
 
 
