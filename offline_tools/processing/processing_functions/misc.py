@@ -167,7 +167,7 @@ def print_rem_time_info(total_it,curent_it,ref_time):
     it_time  = time.time()-ref_time
     rem_its  = total_it-curent_it
     rem_time = it_time * rem_its
-    print("took {:.4f} seconds, estimated remaining time: {:.4f} minutes or {:.4f} hours".format(it_time,ref_time/60.0,rem_time/3600.0))
+    print("took {:.4f} seconds, estimated remaining time: {:.4f} minutes or {:.4f} hours, iteration {} of {}".format(it_time,rem_time/60.0,rem_time/3600.0,curent_it,total_it))
 
 def create_dir_ifnot_exists(dirname):
     if not os.path.exists(dirname):

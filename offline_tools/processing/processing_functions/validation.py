@@ -20,6 +20,7 @@ import time
 TINYDBS_PATH = msc.joinToHome("Dropbox/data/tinydbs/validation")
 METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "iou"]
 ONLY_METRICS = ["accuracy", "precision", "recall", "f1", "iou"]
+PICKLES_PATH = msc.joinToHome("Dropbox/data/pickles/master_deg")
 
 # # captal letters for global variables
 # #dictonary for binaries image

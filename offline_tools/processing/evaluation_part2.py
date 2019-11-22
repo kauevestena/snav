@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import time
 import matplotlib.pyplot as plt
+import pickle
 
 
 beg = time.time()
@@ -71,12 +72,14 @@ for db_path in db_list:
         errorMetricsDfs[errorMetric] = defaultDf
 
     # then filling with the data itself
-    for ckpt in ckptDict:
+    for i,ckpt in enumerate(ckptDict):
+        beg_it1 = time.time()
         print("stuff from {} in '{}'".format(ckpt,db_name))
         for img in imgSet:
             currentDict = db.search((Query().checkpoint == ckpt) & (Query().image == img))[0]
             for errorMetric in vd.ONLY_METRICS:
-                errorMetricsDfs[errorMetric].loc[ckptDict[ckpt],img] = currentDict[errorMetric] 
+                errorMetricsDfs[errorMetric].loc[ckptDict[ckpt],img] = currentDict[errorMetric]
+        msc.print_rem_time_info(len(ckptDict),i,beg_it1)
     
     for key in errorMetricsDfs:
         # print(errorMetricsDfs[key].T)
@@ -84,6 +87,10 @@ for db_path in db_list:
         # plotting stuff
         plt.close('all')
         plt.figure()
+
+        picklepath = os.path.join(vd.PICKLES_PATH,key+"_"+db_name+'.pickle')
+
+        errorMetricsDfs[key].to_pickle(picklepath,compression=None)
 
         errorMetricsDfs[key].plot.line()
 
@@ -99,6 +106,13 @@ for db_path in db_list:
 
 print("tooked  {} s".format(time.time()-beg))
 
-
+#  TODO: PICKLE IT!!!
 for key in revCkptDict:
     print("{} is {}".format(key,revCkptDict[key]))
+
+revCkptDict_path = os.path.join(vd.PICKLES_PATH,'ckpt_rev_dict.pickle')
+
+with open(revCkptDict_path,'wb') as pickling_dict:
+    pickle.dump(revCkptDict,pickling_dict)
+
+msc.telegram_bot_sendtext("pickled and ended!!!")
