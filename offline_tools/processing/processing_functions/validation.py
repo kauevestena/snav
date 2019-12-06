@@ -17,12 +17,16 @@ import time
 # # from msc.joinToHome("snav/utils") import utils, helpers
 
 
+
+# # captal letters for global variables
 TINYDBS_PATH = msc.joinToHome("Dropbox/data/tinydbs/validation")
 METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "iou"]
 ONLY_METRICS = ["accuracy", "precision", "recall", "f1", "iou"]
 PICKLES_PATH = msc.joinToHome("Dropbox/data/pickles/master_deg")
+FIGURES_PATH = msc.joinToHome("snav/offline_tools/processing/figures")
+FIGURES_PATH2 = msc.joinToHome("data/plots/master_deg")
 
-# # captal letters for global variables
+
 # #dictonary for binaries image
 # VEG_NOVEG_DICT = msc.joinToHome("/snav/configurations/class_dict.csv")
 # CNL, LV = helpers.get_label_info(VEG_NOVEG_DICT)
