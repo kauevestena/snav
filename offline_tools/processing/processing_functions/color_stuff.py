@@ -1,5 +1,9 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+import processing_functions.misc as msc
+import os
+
 
 # def compare_quickly(pixel,vR,vG,vB):
 #     equal = False
@@ -149,3 +153,44 @@ def binarize_img(input_path, color_to_be_white: tuple):
 
 
     return img
+
+def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
+    img = cv2.imread(imgpath)
+
+    NIR = img[:,:,0].astype(float)
+    RED = img[:,:,1].astype(float)
+
+    nrdif = NIR - RED
+    nrsum = NIR + RED
+
+    NDVI = np.true_divide(nrdif, nrsum)
+
+
+    if second_img:
+        plt.style.use('dark_background')
+        hpath = msc.pathWithoutFilename(outimgpath)
+        hname = msc.filenameFromPathWtithoutExt(outimgpath)+"_alt.png"
+        outhpath = os.path.join(hpath,hname)
+        # plt.figure.c
+        # fig = plt.figure()
+        # ax.set_facecolor((0, 0, 0))
+        histog = plt.matshow(NDVI)
+        # histog.set_facecolor("w")
+        # ax = fig.add_subplot(1,1,1)
+
+        plt.axis('off')
+        plt.savefig(outhpath,bbox_inches='tight')
+
+    if print_stats:
+        print(np.nanmax(NDVI),np.nanmin(NDVI),np.nanmean(NDVI),np.nanmedian(NDVI))
+
+    # NDVI2 = np.true_divide(nrdif, nrsum, out=np.zeros_like(nrdif), where=nrsum!=0)
+
+
+    NDVI = ((NDVI - np.nanmin(NDVI)) * (1/(np.nanmax(NDVI) - np.nanmin(NDVI)) * 255)).astype('uint8')
+
+
+    # if print_stats:
+    #         print(np.max(NDVI),np.min(NDVI),np.mean(NDVI),np.median(NDVI))
+
+    cv2.imwrite(outimgpath,NDVI)
