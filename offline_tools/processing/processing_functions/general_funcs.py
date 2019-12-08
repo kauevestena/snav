@@ -40,6 +40,10 @@ def gen_charts_per_row(inputDF,outdir,chart_type="line",transposeDF=False):
         plt.figure()
         if chart_type.lower() == "histogram":
             row.plot.hist()
+        elif chart_type.lower() == "boxplot":
+            row.plot.box()
+        elif chart_type.lower() == "density":
+            row.plot.density()
         else: # line, the default
             row.plot()
         plt.savefig(os.path.join(outdir,index+'.png'))

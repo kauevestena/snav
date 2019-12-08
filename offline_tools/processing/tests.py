@@ -108,3 +108,5 @@ with open("pickletest.pickle",'rb') as recover_pickle:
     td2 = pickle.load(recover_pickle)
 
 print(td2)
+
+# pd.DataFrame.plot.hist()

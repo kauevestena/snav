@@ -64,6 +64,27 @@ for key in dataDict:
     # outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_img",key)
     # gf.gen_charts_per_row(dataDict[key],outdir,"histogram",True)
 
-    # # # # GENERATING HISTS FOR THE METRICS PER EPOCH:
-    outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_epoch",key)
-    gf.gen_charts_per_row(dataDict[key],outdir,"histogram")
+    # # # # # GENERATING HISTS FOR THE METRICS PER EPOCH:
+    # outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_epoch",key)
+    # gf.gen_charts_per_row(dataDict[key],outdir,"histogram")
+
+    # # # # # GENERATING HISTS FOR THE METRICS PER EPOCH:
+    # outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_epoch",key)
+    # gf.gen_charts_per_row(dataDict[key],outdir,"histogram")
+
+
+    # # # # GENERATING BOXPLOTS FOR THE METRICS PER EPOCH:
+    outdir = os.path.join(vd.FIGURES_PATH2,"boxplots_per_epoch",key)
+    gf.gen_charts_per_row(dataDict[key],outdir,"boxplot")
+
+    # # # # GENERATING BOXPLOTS FOR THE METRICS PER IMG:
+    outdir = os.path.join(vd.FIGURES_PATH2,"boxplots_per_img",key)
+    gf.gen_charts_per_row(dataDict[key],outdir,"boxplot",True)
+
+    # # # # GENERATING DENSITY CHARTS FOR THE METRICS PER EPOCH:
+    outdir = os.path.join(vd.FIGURES_PATH2,"density_charts_per_epoch",key)
+    gf.gen_charts_per_row(dataDict[key],outdir,"density")
+
+    # # # # GENERATING DENSITY CHARTS FOR THE METRICS PER IMG:
+    outdir = os.path.join(vd.FIGURES_PATH2,"density_charts_per_img",key)
+    gf.gen_charts_per_row(dataDict[key],outdir,"density",True)
