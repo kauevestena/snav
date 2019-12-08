@@ -63,7 +63,6 @@ for item in c:
 # import hashlib
 # from processing_functions import misc as msc
 
-# inputstring = "çãoénão ***"
 
 # print(msc.shortHash(inputstring,6))
 

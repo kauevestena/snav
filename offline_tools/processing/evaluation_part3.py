@@ -1,4 +1,6 @@
 from processing_functions import misc as msc
+from processing_functions import general_funcs as gf
+
 import os
 import numpy as np
 import pandas as pd
@@ -15,7 +17,7 @@ dataDict = {}
 
 for picklepath in pickles_list:
     fname = msc.filenameFromPathWtithoutExt(picklepath)
-    print(fname)
+    # print(fname)
     with open(picklepath,'rb') as picklefile:
         dataDict[fname] = pickle.load(picklefile)
 
@@ -27,20 +29,41 @@ del dataDict['ckpt_rev_dict']
 
 
 for key in dataDict:
-
-    # print(dataDict[key][list(ckpts_dict.keys())[0]])
-    df = dataDict[key].T
-    # df.T.iloc[0,:].plot.line()
-    # print()
-
-    outdir = os.path.join(vd.FIGURES_PATH2,"metrics_per_img",key)
-    msc.create_dir_ifnot_exists(outdir)
-
     print(key)
-    for index,row in df.iterrows():
-            # print(index)
-            # print(row)
-            plt.close('all')
-            plt.figure()
-            row.plot()
-            plt.savefig(os.path.join(outdir,index+'.png'))
+
+    # # # # # GENERATING CHARTS FOR THE METRICS PER IMG:
+    # df = dataDict[key].T
+    # outdir = os.path.join(vd.FIGURES_PATH2,"metrics_per_img",key)
+    # msc.create_dir_ifnot_exists(outdir)
+
+    # print(key)
+    # for index,row in df.iterrows():
+    #         # print(index)
+    #         # print(row)
+    #         plt.close('all')
+    #         plt.figure()
+    #         row.plot()
+    #         plt.savefig(os.path.join(outdir,index+'.png'))
+
+    # # # # # # GENERATING CHARTS FOR THE METRICS PER EPOCH:
+    # df = dataDict[key]
+    # outdir = os.path.join(vd.FIGURES_PATH2,"metrics_per_epoch",key)
+    # msc.create_dir_ifnot_exists(outdir)
+
+    # # print(key)
+    # for index,row in df.iterrows():
+    #         print(index)
+    #         # print(index)
+    #         # print(row)
+    #         plt.close('all')
+    #         plt.figure()
+    #         row.plot()
+    #         plt.savefig(os.path.join(outdir,index+'.png'))
+
+    # # # # # GENERATING HISTS FOR THE METRICS PER IMG:
+    # outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_img",key)
+    # gf.gen_charts_per_row(dataDict[key],outdir,"histogram",True)
+
+    # # # # GENERATING HISTS FOR THE METRICS PER EPOCH:
+    outdir = os.path.join(vd.FIGURES_PATH2,"hist_metrics_per_epoch",key)
+    gf.gen_charts_per_row(dataDict[key],outdir,"histogram")
