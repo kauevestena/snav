@@ -25,7 +25,9 @@ ONLY_METRICS = ["accuracy", "precision", "recall", "f1", "iou"]
 PICKLES_PATH = msc.joinToHome("Dropbox/data/pickles/master_deg")
 FIGURES_PATH = msc.joinToHome("snav/offline_tools/processing/figures")
 FIGURES_PATH2 = msc.joinToHome("data/plots/master_deg")
-
+EXECPATH = msc.joinToHome('/Semantic-Segmentation-Suite/predict.py')
+SSS_PATH = msc.joinToHome('/Semantic-Segmentation-Suite')
+PREDS_PATH = msc.joinToHome('/Semantic-Segmentation-Suite/preds')
 
 # #dictonary for binaries image
 # VEG_NOVEG_DICT = msc.joinToHome("/snav/configurations/class_dict.csv")
@@ -272,6 +274,7 @@ class checkpoint:
 
 
 
+def single_img_forward_pass(ckpt_path,img_path,model="FRRN-A",dataset='politecnico',pythonV='python3'):
 
-
-        
+    runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(pythonV,EXECPATH,img_path,ckpt_path,model,dataset)
+    subprocess.run(runstring,shell=True,cwd=SSS_PATH)

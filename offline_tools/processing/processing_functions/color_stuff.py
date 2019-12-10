@@ -154,6 +154,25 @@ def binarize_img(input_path, color_to_be_white: tuple):
 
     return img
 
+def gen_only_veg_img(classifiedImgPath,originalImgPath,outPath):
+    classifiedImg = cv2.imread(classifiedImgPath)
+    originalImg   = cv2.imread(originalImgPath)
+
+    for i,column in enumerate(classifiedImg):
+        for j,pixel in enumerate(column):
+            # as there are only black or white pixels, we can test only a channel
+            # print(originalImg[i,j,0])
+            if pixel[0] == 255:
+                try:
+                    pixel.itemset(0,originalImg[i,j,0])
+                    pixel.itemset(1,originalImg[i,j,1])
+                    pixel.itemset(2,originalImg[i,j,2])
+                except:
+                    print(classifiedImg.shape)
+
+    cv2.imwrite(outPath,classifiedImg)
+
+
 def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
     img = cv2.imread(imgpath)
 
@@ -194,3 +213,14 @@ def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
     #         print(np.max(NDVI),np.min(NDVI),np.mean(NDVI),np.median(NDVI))
 
     cv2.imwrite(outimgpath,NDVI)
+
+def gen_overlay_img(orig_impath,mask_impath,out_impath):
+    orig_img = cv2.imread(orig_impath)
+    mask_img = cv2.imread(mask_impath)
+
+    mask_img = np.where(mask_img == np.array([255,255,255]),np.array([50,255,50]),mask_img)
+    mask_img = np.where(mask_img == np.array([0,0,0]),np.array([153,153,153]),mask_img)
+
+    output = ((0.4 * orig_img) + (0.6 * mask_img)).astype("uint8")
+
+    cv2.imwrite(out_impath,output)

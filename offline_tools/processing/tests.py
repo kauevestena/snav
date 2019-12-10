@@ -47,66 +47,73 @@ t3 = pd.DataFrame(t2)
 
 
 l = ['abracadabra','bb','cc','abracadabra','baba','baca']
-c = set()
+# c = set()
 
-for item in l:
-    if 'a' in item:
-        c.add(item)
+# for item in l:
+#     if 'a' in item:
+#         c.add(item)
 
-print(len(c))
+# print(len(c))
 
-for item in c:
-    print(item)
+# for item in c:
+#     print(item)
 
-# print(c[0])
+# # print(c[0])
 
-# import hashlib
-# from processing_functions import misc as msc
-
-
-# print(msc.shortHash(inputstring,6))
-
-testEntry = t1['with_terrain_veg'][0]
-
-print(list(testEntry.values()))
+# # import hashlib
+# # from processing_functions import misc as msc
 
 
-for i,key in enumerate(t1):
-    print(i,key)
+# # print(msc.shortHash(inputstring,6))
 
-print(len(t1))
+# testEntry = t1['with_terrain_veg'][0]
 
-print('\n\n\n\n')
-
-print(t3)
-
-# /home/kauevestena/data/pickles
-
-# t3.to_pickle("/home/kauevestena/data/pickles/t1.p",compression=None)
+# print(list(testEntry.values()))
 
 
+# for i,key in enumerate(t1):
+#     print(i,key)
 
-t1 = time.time()
+# print(len(t1))
 
-pickle1_path = "/home/kauevestena/data/pickles/precisionwith_terrain_veg.p"
+# print('\n\n\n\n')
 
-with open(pickle1_path,'rb') as pickled_file:
-    df1 = pickle.load(pickled_file)
+# print(t3)
 
-t2 = time.time()
+# # /home/kauevestena/data/pickles
 
-print(t1-t2)
+# # t3.to_pickle("/home/kauevestena/data/pickles/t1.p",compression=None)
 
-print(df1)
 
-test_dict = {'a':'b','c':'d'}
 
-# with open("pickletest.pickle",'wb') as test_pickle:
-#     pickle.dump(test_dict,test_pickle)
+# t1 = time.time()
 
-with open("pickletest.pickle",'rb') as recover_pickle:
-    td2 = pickle.load(recover_pickle)
+# pickle1_path = "/home/kauevestena/data/pickles/precisionwith_terrain_veg.p"
 
-print(td2)
+# with open(pickle1_path,'rb') as pickled_file:
+#     df1 = pickle.load(pickled_file)
+
+# t2 = time.time()
+
+# print(t1-t2)
+
+# print(df1)
+
+# test_dict = {'a':'b','c':'d'}
+
+# # with open("pickletest.pickle",'wb') as test_pickle:
+# #     pickle.dump(test_dict,test_pickle)
+
+# with open("pickletest.pickle",'rb') as recover_pickle:
+#     td2 = pickle.load(recover_pickle)
+
+# print(td2)
 
 # pd.DataFrame.plot.hist()
+
+
+arr = np.array([[1,2,3],[2,8,7]])
+
+arr = np.where(arr == np.array([1,2,3]),np.array([9,9,9]),arr)
+
+print(arr)
