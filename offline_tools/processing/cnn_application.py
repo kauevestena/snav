@@ -52,7 +52,7 @@ for i,img_path in enumerate(img_list):
 
     except Exception as e:
         msc.telegram_bot_sendtext("failed on "+img_name)
-        msc.telegram_bot_sendtext(e)
+        # msc.telegram_bot_sendtext(e)
 
     msc.print_rem_time_info(len(img_list),i,t1)
 

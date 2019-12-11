@@ -224,3 +224,32 @@ def gen_overlay_img(orig_impath,mask_impath,out_impath):
     output = ((0.4 * orig_img) + (0.6 * mask_img)).astype("uint8")
 
     cv2.imwrite(out_impath,output)
+
+
+def disp_multiple(im1=None, im2=None, im3=None, im4=None):
+    """
+    Combines four images for display.
+    """
+
+    # code based on:
+    # https://github.com/robintw/RPiNDVI/blob/master/ndvi.py (MIT LICENSE)
+    # thank you, author!!
+
+    height, width, depth = im1.shape
+
+    combined = np.zeros((2 * height, 2 * width, 3), dtype=np.uint8)
+
+    combined[0:height, 0:width, :] = im1 #cv2.cvtColor(im1, cv2.COLOR_GRAY2RGB)
+    combined[height:, 0:width, :] =  im2 #cv2.cvtColor(im2, cv2.COLOR_GRAY2RGB)
+    combined[0:height, width:, :] =  im3 #cv2.cvtColor(im3, cv2.COLOR_GRAY2RGB)
+    combined[height:, width:, :] =   im4 #cv2.cvtColor(im4, cv2.COLOR_GRAY2RGB)
+
+    return combined
+
+def labelimg(image, text):
+    """
+    Labels the given image with the given text
+    """
+    # same author from "disp_multiple" function in this module
+
+    return cv2.putText(image, text, (0, 50), cv2.FONT_HERSHEY_DUPLEX, 2, 255)
