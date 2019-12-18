@@ -9,7 +9,6 @@ import datetime
 import time
 import hashlib
 
-
 def find_datetime_String(inputStr,onlyDate=False):
     if onlyDate:
         date = re.search('\d{4}-\d{2}-\d{2}',inputStr)
@@ -181,3 +180,6 @@ def shortHash(inputstring,length=6,encoding='utf-8'):
 def reverseDict(inputDict):
     # thx: https://stackoverflow.com/questions/483666/reverse-invert-a-dictionary-mapping
     return {v: k for k, v in inputDict.items()}
+
+
+PICKLESPATH = joinToHome('data/pickles')
