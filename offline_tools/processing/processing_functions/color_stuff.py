@@ -154,6 +154,25 @@ def binarize_img(input_path, color_to_be_white: tuple):
 
     return img
 
+def gen_only_veg_img(classifiedImgPath,originalImgPath,outPath):
+    classifiedImg = cv2.imread(classifiedImgPath)
+    originalImg   = cv2.imread(originalImgPath)
+
+    for i,column in enumerate(classifiedImg):
+        for j,pixel in enumerate(column):
+            # as there are only black or white pixels, we can test only a channel
+            # print(originalImg[i,j,0])
+            if pixel[0] == 255:
+                try:
+                    pixel.itemset(0,originalImg[i,j,0])
+                    pixel.itemset(1,originalImg[i,j,1])
+                    pixel.itemset(2,originalImg[i,j,2])
+                except:
+                    print(classifiedImg.shape)
+
+    cv2.imwrite(outPath,classifiedImg)
+
+
 def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
     img = cv2.imread(imgpath)
 
@@ -194,3 +213,43 @@ def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
     #         print(np.max(NDVI),np.min(NDVI),np.mean(NDVI),np.median(NDVI))
 
     cv2.imwrite(outimgpath,NDVI)
+
+def gen_overlay_img(orig_impath,mask_impath,out_impath):
+    orig_img = cv2.imread(orig_impath)
+    mask_img = cv2.imread(mask_impath)
+
+    mask_img = np.where(mask_img == np.array([255,255,255]),np.array([50,255,50]),mask_img)
+    mask_img = np.where(mask_img == np.array([0,0,0]),np.array([153,153,153]),mask_img)
+
+    output = ((0.4 * orig_img) + (0.6 * mask_img)).astype("uint8")
+
+    cv2.imwrite(out_impath,output)
+
+
+def disp_multiple(im1=None, im2=None, im3=None, im4=None):
+    """
+    Combines four images for display.
+    """
+
+    # code based on:
+    # https://github.com/robintw/RPiNDVI/blob/master/ndvi.py (MIT LICENSE)
+    # thank you, author!!
+
+    height, width, depth = im1.shape
+
+    combined = np.zeros((2 * height, 2 * width, 3), dtype=np.uint8)
+
+    combined[0:height, 0:width, :] = im1 #cv2.cvtColor(im1, cv2.COLOR_GRAY2RGB)
+    combined[height:, 0:width, :] =  im2 #cv2.cvtColor(im2, cv2.COLOR_GRAY2RGB)
+    combined[0:height, width:, :] =  im3 #cv2.cvtColor(im3, cv2.COLOR_GRAY2RGB)
+    combined[height:, width:, :] =   im4 #cv2.cvtColor(im4, cv2.COLOR_GRAY2RGB)
+
+    return combined
+
+def labelimg(image, text):
+    """
+    Labels the given image with the given text
+    """
+    # same author from "disp_multiple" function in this module
+
+    return cv2.putText(image, text, (0, 50), cv2.FONT_HERSHEY_DUPLEX, 2, 255)

@@ -18,10 +18,8 @@ def find_datetime_String(inputStr,onlyDate=False):
     return date.group()
 
 def createDir(dirPath):
-    try:
+    if not os.path.exists(dirPath):
         os.makedirs(dirPath)
-    except:
-        pass
 
 def createDirs(dirList):
     for dirPath in dirList:
