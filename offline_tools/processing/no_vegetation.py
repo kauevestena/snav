@@ -2,8 +2,8 @@ from processing_functions import misc as msc
 from processing_functions import color_stuff as cs
 import os
 
-path = "/home/kaue/data/politecnico/test"
-destpath = "/home/kaue/data/politecnico/test_labels"
+path = "/home/kaue/data/politecnico2/noveg"
+destpath = "/home/kaue/data/politecnico2/all_black_masks"
 
 filelist = msc.orderedFileList(path)
 

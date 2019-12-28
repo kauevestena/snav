@@ -78,11 +78,14 @@ def remove_other_classes2(imPath,outPath,listOfClasses):
 
 def allBlackImg(imPath,outPath):
     img = cv2.imread(imPath)
-    for column in img:
-        for pixel in column:
-            pixel.itemset(0,0)
-            pixel.itemset(1,0)
-            pixel.itemset(2,0)
+    # for column in img:
+    #     for pixel in column:
+    #         pixel.itemset(0,0)
+    #         pixel.itemset(1,0)
+    #         pixel.itemset(2,0)
+
+    # lot better:
+    img = np.zeros(img.shape)
 
     cv2.imwrite(outPath,img)
 
@@ -172,8 +175,7 @@ def gen_only_veg_img(classifiedImgPath,originalImgPath,outPath):
 
     cv2.imwrite(outPath,classifiedImg)
 
-
-def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
+def gen_uint8_NDVI(imgpath,outimgpath,absolute_scale = True,second_img=True,print_stats=False):
     img = cv2.imread(imgpath)
 
     NIR = img[:,:,0].astype(float)
@@ -186,32 +188,69 @@ def gen_uint8_NDVI(imgpath,outimgpath,second_img=True,print_stats=False):
 
 
     if second_img:
+        plt.close('all')
         plt.style.use('dark_background')
-        hpath = msc.pathWithoutFilename(outimgpath)
+        hpath = msc.get_parent_dir(msc.pathWithoutFilename(outimgpath))
+        mp_ndvi = os.path.join(hpath,"matplotlib_ndvi")
+
+        mp_boxplot = os.path.join(hpath,"matplotlib_boxplot")
+        mp_histog = os.path.join(hpath,"matplotlib_histog")
+
+        msc.create_dir_ifnot_exists(mp_ndvi)
+        msc.create_dir_ifnot_exists(mp_boxplot)
+        msc.create_dir_ifnot_exists(mp_histog)
+
+
         hname = msc.filenameFromPathWtithoutExt(outimgpath)+"_alt.png"
-        outhpath = os.path.join(hpath,hname)
+
+        outhpath_mp_ndvi = os.path.join(mp_ndvi,hname)
+        outhpath_mp_boxplot = os.path.join(mp_boxplot,hname)
+        outhpath_mp_histog = os.path.join(mp_histog,hname)
+
+
         # plt.figure.c
         # fig = plt.figure()
         # ax.set_facecolor((0, 0, 0))
-        histog = plt.matshow(NDVI)
+        plt.matshow(NDVI)
         # histog.set_facecolor("w")
         # ax = fig.add_subplot(1,1,1)
 
         plt.axis('off')
-        plt.savefig(outhpath,bbox_inches='tight')
+        plt.colorbar()
+        plt.savefig(outhpath_mp_ndvi,bbox_inches='tight')
 
-    if print_stats:
-        print(np.nanmax(NDVI),np.nanmin(NDVI),np.nanmean(NDVI),np.nanmedian(NDVI))
+        plt.close('all')
+        plt.style.use('default')
+        plt.hist(NDVI.flatten(),[x for x in np.arange(-1.0,1.0,0.05)])
+        plt.savefig(outhpath_mp_histog,bbox_inches='tight')
+
+        plt.close('all')
+        plt.box(NDVI.flatten().all())
+        plt.savefig(outhpath_mp_boxplot)
+
+
+    if print_stats and second_img:
+        # parentfolder = msc.get_parent_dir(hpath)
+        rep_path = os.path.join(hpath,'ndvi_stats.csv')
+        print(rep_path)
+        with open(rep_path,'a+') as ndvi_stats:
+            statlist = list(map(str,[np.nanmax(NDVI),np.nanmin(NDVI),np.nanmean(NDVI),np.nanmedian(NDVI),np.nanquantile(NDVI,0.25),np.nanquantile(NDVI,0.75),np.nanquantile(NDVI,0.05),np.nanquantile(NDVI,0.95),np.nanquantile(NDVI,0.01),np.nanquantile(NDVI,0.99),np.nanquantile(NDVI,0.001),np.nanquantile(NDVI,0.999) ]))
+            ndvi_stats.write(",".join(statlist))
+            ndvi_stats.write('\n')
 
     # NDVI2 = np.true_divide(nrdif, nrsum, out=np.zeros_like(nrdif), where=nrsum!=0)
 
+    if absolute_scale:
+        NDVI = ((NDVI - (-1.0)) * (1/(1.0 - (-1.0)) * 255)).astype('uint8')
 
-    NDVI = ((NDVI - np.nanmin(NDVI)) * (1/(np.nanmax(NDVI) - np.nanmin(NDVI)) * 255)).astype('uint8')
+    else:
+        NDVI = ((NDVI - np.nanmin(NDVI)) * (1/(np.nanmax(NDVI) - np.nanmin(NDVI)) * 255)).astype('uint8')
 
 
     # if print_stats:
     #         print(np.max(NDVI),np.min(NDVI),np.mean(NDVI),np.median(NDVI))
 
+    print(outimgpath)
     cv2.imwrite(outimgpath,NDVI)
 
 def gen_overlay_img(orig_impath,mask_impath,out_impath):

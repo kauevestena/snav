@@ -50,7 +50,7 @@ for i,img_path in enumerate(img_list):
         cs.gen_overlay_img(dest_orig,dest_pred,dest_overlay)
 
 
-    except Exception as e:
+    except:
         msc.telegram_bot_sendtext("failed on "+img_name)
         # msc.telegram_bot_sendtext(e)
 

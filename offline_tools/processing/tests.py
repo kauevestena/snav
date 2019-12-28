@@ -117,3 +117,25 @@ arr = np.array([[1,2,3],[2,8,7]])
 arr = np.where(arr == np.array([1,2,3]),np.array([9,9,9]),arr)
 
 print(arr)
+
+numbers = [x for x in np.arange(-1.0,1.0,0.05)]
+
+print(numbers)
+
+
+new_validation_data = {"1":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"0158","accuracy":0.6587219238,"precision":0.6557100149,"recall":0.3977134672,"f1":0.4951184551,"iou":0.3290082576},"2":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"0356","accuracy":0.6311721802,"precision":0.6349700551,"recall":0.2902953816,"f1":0.3984345835,"iou":0.2487782137},"3":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"0743","accuracy":0.7346992493,"precision":0.6843719743,"recall":0.6857059965,"f1":0.685038336,"iou":0.5209568877},"4":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"0823","accuracy":0.6654891968,"precision":0.6457001444,"recall":0.4541877459,"f1":0.5332708828,"iou":0.3635783026},"5":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"1830","accuracy":0.5753822327,"precision":0.4885248873,"recall":0.1954976518,"f1":0.2792465536,"iou":0.16228156},"6":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"1981","accuracy":0.6455383301,"precision":0.7378723171,"recall":0.244365265,"f1":0.3671420593,"iou":0.2248462957},"7":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"2454","accuracy":0.5764389038,"precision":0.4906868452,"recall":0.1757874123,"f1":0.2588444183,"iou":0.1486624292},"8":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"2545","accuracy":0.6313896179,"precision":0.6575168822,"recall":0.2586538287,"f1":0.3712610696,"iou":0.2279438789},"9":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"3153","accuracy":0.7120742798,"precision":0.6537143967,"recall":0.6712814376,"f1":0.6623814636,"iou":0.4951945907},"10":{"checkpoint":"\/home\/kaue\/data\/epochs\/3321\/model.ckpt","image":"3499","accuracy":0.9283332825,"precision":0.9242866813,"recall":0.9036972565,"f1":0.9138760148,"iou":0.8414103982}}
+
+
+for key in new_validation_data:
+    del new_validation_data[key]["checkpoint"]
+    del new_validation_data[key]["image"]
+
+
+
+print(new_validation_data)
+
+
+
+new_valid = pd.DataFrame(new_validation_data)
+
+print(new_valid.T)

@@ -8,10 +8,14 @@ from processing_functions import misc as msc
 
 # paths that contain subfolders with checkpoints
 pathsWithCheckpoints = [
-    msc.joinToHome("/Dropbox/data/checkpoints/deeplab_plus"),
-    "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints",
-    "/home/kaue/Downloads/parts/checkpoints",
-    "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints"
+    # IN THE SEARCH FOR REAL METRICS
+    "/home/kaue/data/epochs"
+
+    # # CHECKPOINTS FROM CITYSCAPES TRAINED CNNS
+    # msc.joinToHome("/Dropbox/data/checkpoints/deeplab_plus"),
+    # "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints",
+    # "/home/kaue/Downloads/parts/checkpoints",
+    # "/media/kauevestena/data/Semantic-Segmentation-Suite/checkpoints"
     ]
 listsOfCkptFolders = []
 for ckptPath in pathsWithCheckpoints:
@@ -39,15 +43,24 @@ gtImagesList = msc.orderedFileList(gtImages,'*.png')
 
 # Ground Truth Masks (gtm)
 gtMasksVersions = msc.joinToHome("/Dropbox/data/gt_downsized")
+
 gtmDirs = msc.getSubdirs(gtMasksVersions)
+
+print(gtmDirs)
+
+
 listOfListsOnDirs = []
 for dirPath in gtmDirs:
     listOfListsOnDirs.append(msc.orderedFileList(dirPath,'*.png'))
+
+
 
 # list of images and ground truth versions
 imgs_and_gts = []
 
 for i,imagepath in enumerate(gtImagesList):
+    # print(i,imagepath)
+
 
     img_gts = vd.img_and_gts(imagepath)
 

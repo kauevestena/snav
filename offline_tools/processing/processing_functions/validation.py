@@ -16,8 +16,6 @@ import time
 # from utils import utils, helpers
 # # from msc.joinToHome("snav/utils") import utils, helpers
 
-
-
 # # captal letters for global variables
 TINYDBS_PATH = msc.joinToHome("Dropbox/data/tinydbs/validation")
 METRIC_LIST = ["checkpoint","image","accuracy", "precision", "recall", "f1", "iou"]
@@ -28,6 +26,11 @@ FIGURES_PATH2 = msc.joinToHome("data/plots/master_deg")
 EXECPATH = msc.joinToHome('/Semantic-Segmentation-Suite/predict.py')
 SSS_PATH = msc.joinToHome('/Semantic-Segmentation-Suite')
 PREDS_PATH = msc.joinToHome('/Semantic-Segmentation-Suite/preds')
+
+
+def write_to_generic_test(input_string):
+    with open(msc.joinToHome("data/generic_test.txt"),'a+') as testing_paths:
+        testing_paths.write(input_string)
 
 # #dictonary for binaries image
 # VEG_NOVEG_DICT = msc.joinToHome("/snav/configurations/class_dict.csv")
@@ -59,6 +62,7 @@ def gen_error_metrics_dict(errormetric_tuple):
 
 
 def error_metrics_dict(pred,gt,checkpoint,imagename,printSums = False):
+
     TP = 0
     TN = 0
     FP = 0
@@ -182,6 +186,8 @@ class checkpoint:
     def process_image(self,imgpath):
         runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,imgpath,self.ckpt_path,self.model,self.dataset)
 
+        write_to_generic_test(imgpath+'process_imagev1\n')
+
         # print('runstring: {}'.format(runstring))
         subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
@@ -203,10 +209,14 @@ class checkpoint:
 
             runstring = "{} {} --image {} --checkpoint {} --model {} --dataset {}".format(self.running_python,self.execpath,img_gts.img_path,self.ckpt_path,self.model,self.dataset)
 
+            write_to_generic_test(img_gts.img_path+'\n')
+
             print('runstring: {}'.format(runstring))
             subprocess.run(runstring,shell=True,cwd=self.sss_path)
 
             pred_path = os.path.join(self.preds_path,img_gts.img_number+'_pred.png')
+
+            write_to_generic_test(pred_path+'\n')
 
             current_binarized = cs.binarize_img(pred_path,self.veg_color_tuple)
             # print(self.veg_color_tuple)
@@ -219,6 +229,11 @@ class checkpoint:
             
             for key in img_gts.versions_dicts:
                 gt_versions[key] = cv2.imread(img_and_gts.versions_dicts[key])
+
+                write_to_generic_test(key+'\n')
+                write_to_generic_test(img_and_gts.versions_dicts[key]+'\n')
+
+            write_to_generic_test('\n\n')
 
             if not self.error_metrics_store:
                 for key in gt_versions:
