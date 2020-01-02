@@ -133,6 +133,8 @@ class img_and_gts:
     def print_state(self):
         print(self.img_path,'\n',self.versions_dicts)
 
+    def reset_dict(self):
+        self.versions_dicts = {}
 
 class checkpoint:
 
@@ -228,9 +230,12 @@ class checkpoint:
             gt_versions = {}
             
             for key in img_gts.versions_dicts:
-                gt_versions[key] = cv2.imread(img_and_gts.versions_dicts[key])
+                current_gt_dir = msc.pathWithoutFilename(img_and_gts.versions_dicts[key])
+                current_gt_path= os.path.join(current_gt_dir,img_gts.img_number+'.png')
+                gt_versions[key] = cv2.imread(current_gt_path)
 
                 write_to_generic_test(key+'\n')
+                write_to_generic_test(current_gt_path+'\n')
                 write_to_generic_test(img_and_gts.versions_dicts[key]+'\n')
 
             write_to_generic_test('\n\n')

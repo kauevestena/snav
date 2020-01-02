@@ -4,7 +4,7 @@ import serial, string, os
 
 portName = '/dev/ttyUSB0'
 
-# this code can be run on windows
+# this code can run on windows
 if os.name == 'nt':
   portName = '\\.\COM4'
 

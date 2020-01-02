@@ -1,6 +1,7 @@
 import os, time
 from processing_functions import validation as vd
 from processing_functions import misc as msc
+import copy
 
 
 # OPJ = os.path.join
@@ -61,16 +62,30 @@ imgs_and_gts = []
 for i,imagepath in enumerate(gtImagesList):
     # print(i,imagepath)
 
-
     img_gts = vd.img_and_gts(imagepath)
 
     for a_list in listOfListsOnDirs:
+        # print(msc.pathWithoutFilename(a_list[i]))
+        print(a_list[i])
         img_gts.add_entry(a_list[i])
 
     # img_gts.print_state()
 
-    imgs_and_gts.append(img_gts)
+    # THIS WORKAROUND IS SO STRANGE:
 
+    img_gts.versions_dicts = img_gts.versions_dicts
+
+    imgs_and_gts.append(copy.deepcopy(img_gts))
+    # imgs_and_gts.append(img_gts)
+
+
+    # img_gts.reset_dict()
+
+
+# for item in imgs_and_gts:
+#     print(item.versions_dicts)
+
+print([item.versions_dicts for item in imgs_and_gts])
 
 # the list of checkpoints:
 ckptList = []
