@@ -88,7 +88,7 @@ deltas_ids = {'img_imu':[],'img_gnss':[]}
 last_j = 0
 last_k = 0
 
-if not os.path.isfile(pickle_2_outpath): 
+if not os.path.isfile(pickle_outpath): 
     for i,time_img in enumerate(obs_times['img']):
         if i % 100 == 0:
             print(i)
@@ -123,15 +123,17 @@ else:
     with open(pickle_outpath,'rb') as indexes:
         deltas_ids = pickle.load(indexes)
 
-# # print(deltas_ids)
+# print(deltas_ids)
 print([len(deltas_ids[key]) for key in deltas_ids])
 print("took "+str(time.time()-t1 ))
 
-# if not os.path.isfile(pickle_2_outpath): 
 
+full_idx = {}
+if not os.path.isfile(pickle_2_outpath): 
+    for i in range 
 
-#     with open(pickle_2_outpath,'wb') as indexes:
-#         pickle.dump(deltas_ids,indexes)
-# else:
-#     with open(pickle_2_outpath,'rb') as indexes:
-#         deltas_ids = pickle.load(indexes)
+    with open(pickle_2_outpath,'wb') as indexes:
+        pickle.dump(deltas_ids,indexes)
+else:
+    with open(pickle_2_outpath,'rb') as indexes:
+        deltas_ids = pickle.load(indexes)
