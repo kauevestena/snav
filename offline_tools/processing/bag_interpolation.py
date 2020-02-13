@@ -13,6 +13,7 @@ import os
 np.set_printoptions(precision=5)
 np.set_printoptions(suppress=True)
 import pyproj
+import math
 
 def linterp(x0,x1,y0,y1,x):
     # print(x0,x1,y0,y1,x)
@@ -193,6 +194,8 @@ with open(msc.joinToHome('Dropbox/data/img_gnss.csv'),'w+') as outfile:
         p0 = lla_to_ecef(*(obs['gnss'][f][1].latitude,obs['gnss'][f][1].longitude,obs['gnss'][f][1].altitude))
         p1 = lla_to_ecef(*(obs['gnss'][l][1].latitude,obs['gnss'][l][1].longitude,obs['gnss'][l][1].altitude))
 
+        distance = math.sqrt(sum([(a - b) ** 2 for a, b in zip(p0, p1)]))
+
         x = linterp(t0,t1_,p0[0],p1[0],t) 
         y = linterp(t0,t1_,p0[1],p1[1],t)
         z = linterp(t0,t1_,p0[2],p1[2],t)
@@ -202,7 +205,7 @@ with open(msc.joinToHome('Dropbox/data/img_gnss.csv'),'w+') as outfile:
         print(p_interp)
 
         # remember that we are on python 2.x!!!
-        outfile.write(im+','+str(f)+','+str(l)+','+str(t)+','+str(p_interp[0])+','+str(p_interp[1])+','+str(p_interp[2])+'\n')
+        outfile.write(im+','+str(f)+','+str(l)+','+str(t)+','+str(t0)+','+str(t1_)+','+str(distance)+','+str(p_interp[0])+','+str(p_interp[1])+','+str(p_interp[2])+'\n')
 
 
 
