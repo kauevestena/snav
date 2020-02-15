@@ -76,7 +76,7 @@ def remove_other_classes2(imPath,outPath,listOfClasses):
 
     cv2.imwrite(outPath,img)
 
-def allBlackImg(imPath,outPath):
+def allBlackImg(imPath,outPath,anotherRes=None):
     img = cv2.imread(imPath)
     # for column in img:
     #     for pixel in column:
@@ -84,8 +84,13 @@ def allBlackImg(imPath,outPath):
     #         pixel.itemset(1,0)
     #         pixel.itemset(2,0)
 
+    #TODO: check if another input is a Tuple
+
     # lot better:
-    img = np.zeros(img.shape)
+    if anotherRes:
+        img = np.zeros(anotherRes)
+    else:
+        img = np.zeros(img.shape)
 
     cv2.imwrite(outPath,img)
 

@@ -3,6 +3,7 @@
 source $HOME/catkin_ws/devel/setup.bash
 
 # bagpath=/home/kauevestena/Dropbox/data/2019-06-10-12-30-30.bag
+# /home/kaue/data/rosbags/2019-07-11-16-21-46.bag
 bagpath=$1
 
 bagname="$(basename -- $bagpath)"

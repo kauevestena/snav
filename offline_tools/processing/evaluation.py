@@ -10,7 +10,8 @@ import copy
 # paths that contain subfolders with checkpoints
 pathsWithCheckpoints = [
     # IN THE SEARCH FOR REAL METRICS
-    "/home/kaue/data/epochs"
+    # "/home/kaue/data/epochs"
+    "/home/kaue/data/epochs/checkpoints3"
 
     # # CHECKPOINTS FROM CITYSCAPES TRAINED CNNS
     # msc.joinToHome("/Dropbox/data/checkpoints/deeplab_plus"),
@@ -36,6 +37,29 @@ for listOfCkpt in listsOfCkptFolders:
         # else:
         #     print(ckptFolder)
 # print(validCkptFolders)
+
+validCkptFolders = sorted(validCkptFolders)
+
+print(len(validCkptFolders))
+
+#decimating checkpoints
+for i,ckptfpath in enumerate(validCkptFolders):
+    ckptnumber = msc.fileNumberFromPath(ckptfpath)
+    print(ckptnumber)
+
+    if ckptnumber < 500:
+        if not i % 25 == 0:
+            del validCkptFolders[i]
+    elif ckptnumber < 900:
+        if not i % 10 == 0:
+            del validCkptFolders[i]
+    elif ckptnumber < 1000:
+        if not i % 5 == 0:
+            del validCkptFolders[i]
+
+print(len(validCkptFolders))
+print(validCkptFolders)
+
 
 # Ground Truth Images
 gtImages = msc.joinToHome("/Dropbox/data/gt/originals")
@@ -93,6 +117,7 @@ for validckptpath in validCkptFolders:
     if os.environ['HOME'] == '/home/kauevestena':
         ckptList.append(vd.checkpoint(validckptpath,"python3.7"))
     else:
+        print(validckptpath)
         ckptList.append(vd.checkpoint(validckptpath))
 
 # for ckpt in ckptList:

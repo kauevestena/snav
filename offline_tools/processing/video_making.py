@@ -5,14 +5,14 @@ import cv2
 import numpy as np
 from cv2 import VideoWriter, VideoWriter_fourcc
 
-out_basepath = msc.joinToHome("/data/cnn_output")
+out_basepath = msc.joinToHome("/data/cnn_output3")
 out_dirs = ['orig_resiz','overlay','masks','ndvi','only_veg']
 
 outpaths = {}
 
 ### VIDEO CONFIGURATION
 
-videopath = msc.joinToHome("/data/CNN_VIDEO/smmt_video.avi")
+videopath = msc.joinToHome("/data/CNN_VIDEO/smmt_video2.avi")
 
 
 width = 1024
@@ -52,7 +52,7 @@ for i,img_path in enumerate(img_list):
     # print(i)
 
     orig = cv2.imread(dest_orig)
-    # pred = cv2.imread(dest_pred)
+    pred = cv2.imread(dest_pred)
     onlyveg = cv2.imread(dest_onlyveg)
     ndvi = cv2.imread(dest_ndvi)
     overlay = cv2.imread(dest_overlay)
@@ -61,10 +61,10 @@ for i,img_path in enumerate(img_list):
 
     cs.labelimg(orig,"Photograph")
     cs.labelimg(onlyveg,"Only Veg.")
-    cs.labelimg(ndvi,"Veg. NDVI")
+    cs.labelimg(pred,"Pred. Mask")
     cs.labelimg(overlay,"Overlay")
 
-    combinedimg = cs.disp_multiple(orig,ndvi,onlyveg,overlay)
+    combinedimg = cs.disp_multiple(orig,pred,onlyveg,overlay)
 
 
     # # # cv2.imshow('combined',combinedimg)
@@ -75,7 +75,7 @@ for i,img_path in enumerate(img_list):
     
     video.write(combinedimg)
 
-    if i == 1905:
+    if i == 1914:
         break
 
 

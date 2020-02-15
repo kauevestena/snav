@@ -7,7 +7,11 @@ import pandas as pd
 import time
 import matplotlib.pyplot as plt
 import pickle
+import copy
 
+"""
+ use "evaluation_part2_ckpt2.py" to generate a proper ckpt dict for part3
+"""
 
 beg = time.time()
 
@@ -63,6 +67,8 @@ for db_path in db_list:
 
 
 
+    ####################################################
+
 
     # first populating the storage dict with default values
     errorMetricsDfs = dict()
@@ -77,12 +83,25 @@ for db_path in db_list:
         print("stuff from {} in '{}'".format(ckpt,db_name))
         for img in imgSet:
             currentDict = db.search((Query().checkpoint == ckpt) & (Query().image == img))[0]
+
+
             for errorMetric in vd.ONLY_METRICS:
+
                 errorMetricsDfs[errorMetric].loc[ckptDict[ckpt],img] = currentDict[errorMetric]
+
+                errorMetricsDfs[errorMetric] = copy.deepcopy(errorMetricsDfs[errorMetric])
+
+                # errorMetricsDfs[errorMetric] = 
+
+                # print(errorMetricsDfs[errorMetric])
+
         msc.print_rem_time_info(len(ckptDict),i,beg_it1)
     
+
+    #################################################
+
     for key in errorMetricsDfs:
-        # print(errorMetricsDfs[key].T)
+        print(errorMetricsDfs[key].T)
 
         # plotting stuff
         plt.close('all')
@@ -106,7 +125,6 @@ for db_path in db_list:
 
 print("tooked  {} s".format(time.time()-beg))
 
-#  TODO: PICKLE IT!!!
 for key in revCkptDict:
     print("{} is {}".format(key,revCkptDict[key]))
 

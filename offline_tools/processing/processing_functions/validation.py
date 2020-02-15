@@ -9,7 +9,6 @@ import pandas as pd
 from tinydb import TinyDB, Query
 import time
 
-
 # sss imports
 # sys.path.insert(0,msc.joinToHome("Semantic-Segmentation-Suite"))
 # # print(sys.path)
@@ -174,7 +173,7 @@ class checkpoint:
         with open(self.infospath) as infos:
             for line in infos:
                 if self.patternToSearch in line:
-                    usefulPart = line.split(self.patternToSearch)[1].split('.')[0].rsplit('_',maxsplit=1)
+                    usefulPart = line.split(self.patternToSearch)[1].split('.')[0].rsplit('_',maxsplit=2)
                     self.model   = self.supported_models[usefulPart[0]]
                     self.dataset = usefulPart[1]
                     self.dataset_classdict = os.path.join(self.sss_path,self.dataset,self.classdict)
@@ -288,7 +287,11 @@ class checkpoint:
             db = TinyDB(dbpath)
             for entry in self.error_metrics_store[key]:
                 if not db.search((Query().checkpoint == entry['checkpoint']) & (Query().image == entry['image'])):
-                    db.insert(entry)
+                    try:
+                        db.insert(entry)
+                    except:
+                        print(entry)
+                        break
                 else:
                     print("{} not inserted".format(entry['image']))
 
