@@ -5,8 +5,8 @@ from processing_functions import general_funcs as gf
 import glob
 import cv2
 
-basedir = "/home/kaue/data/cityscapes_original/leftImg8bit/"
-baseOutDir = "/home/kaue/data/cityscapes_red/"
+basedir = "/home/kauevestena/Dropbox/data/backup/temp/"
+baseOutDir = "/home/kauevestena/Dropbox/data/gt/originals_complete_red/"
 
 dirList = msc.getSubdirs(basedir)
 
