@@ -297,3 +297,13 @@ def labelimg(image, text):
     # same author from "disp_multiple" function in this module
 
     return cv2.putText(image, text, (0, 50), cv2.FONT_HERSHEY_DUPLEX, 2, 255)
+
+
+def percentOfWhitePix(inputpath):
+    img = cv2.imread(inputpath)
+
+    # print(img[:,:,0].shape)
+    try:
+        return ((np.sum(img[:,:,0]/255))/(img.shape[0]*img.shape[1]))*100
+    except:
+        return 0

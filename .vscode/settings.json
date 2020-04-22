@@ -2,7 +2,7 @@
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
     "python.linting.prospectorEnabled": false,
-    "python.pythonPath": "/usr/bin/python2",
+    "python.pythonPath": "/usr/bin/python3",
     "python.linting.mypyEnabled": false,
     "python.autoComplete.extraPaths": ["./src"],
     "python.jediEnabled": true,

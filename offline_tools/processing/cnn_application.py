@@ -5,7 +5,7 @@ import os
 import time
 from shutil import copyfile
 
-gen_extras = True
+gen_extras = False
 
 # epoch_path = msc.joinToHome("/data/epochs/3321/model.ckpt")
 epoch_path = msc.joinToHome("data/epochs/checkpoints3/1033/model.ckpt")
@@ -24,11 +24,12 @@ for name in out_dirs:
     outpaths[name] = os.path.join(out_basepath,name)
 
 
-imgs_path = "/home/kaue/data/extracted_images/2019-07-11-16-21-46/ngr"
+# imgs_path = "/home/kaue/data/extracted_images/2019-07-11-16-21-46/ngr"
 # imgs_path = "/home/kaue/data/extracted_images/red_band"
+imgs_path = "/home/kaue/data/extracted_images/newextracted"
 
 
-img_list = msc.orderedFileList(imgs_path,extension='*.jpg')
+img_list = msc.orderedFileList(imgs_path,extension='*.png')
 
 img_list = sorted(img_list)
 

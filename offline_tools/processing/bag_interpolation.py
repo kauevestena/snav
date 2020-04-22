@@ -12,6 +12,15 @@ import pickle
 import os
 np.set_printoptions(precision=5)
 np.set_printoptions(suppress=True)
+
+# ROS Image message -> OpenCV2 image converter
+# from cv_bridge import CvBridge, CvBridgeError
+# OpenCV2 for saving an image
+import cv2
+
+
+from sensor_msgs.msg import CompressedImage
+
 import pyproj
 import math
 
@@ -34,6 +43,10 @@ def ecef_to_lla(x,y,z):
     lla =  pyproj.Proj(proj='latlong', ellps='WGS84', datum='WGS84')
     return pyproj.transform( ecef, lla, x,y,z , radians=False)
      
+SAVEIMGS = True
+
+# bridge = CvBridge()
+outimgs_path = '/home/kaue/data/extracted_images/newextracted'
 
 
 from geometry_msgs.msg import _TwistStamped
@@ -81,6 +94,18 @@ for topic, msg, t in messages:
             if key == "img":
                 obs[key].append((t.to_sec(),img_count))
                 img_count += 1
+
+                if SAVEIMGS:
+
+                    outpath = os.path.join(outimgs_path,str(img_count)+'.png')
+                    print(outpath)
+                    np_arr = np.fromstring(msg.data, np.uint8)
+                    image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+                    # time = msg.header.stamp
+                    cv2.imwrite(outpath, image_np)
+
+
             else:
                 obs[key].append((t.to_sec(),msg))
 
@@ -181,7 +206,7 @@ lx = 0
 ly = 0
 lz = 0
 
-with open(msc.joinToHome('Dropbox/data/img_gnss.csv'),'w+') as outfile:
+with open(msc.joinToHome('Dropbox/data/img_gnss_b.csv'),'w+') as outfile:
     for i,regtuple in enumerate(deltas_ids['img_gnss']):
         # 'f' is for "first", 'l'  is for "last"
         im = str(regtuple[0])+'.png'
