@@ -10,8 +10,5 @@ Enjoy!!
 
 Embed PDF preview:
 
-<object data="https://github.com/kauevestena/snav/blob/master/map/current_version.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="https://github.com/kauevestena/snav/blob/master/map/current_version.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="http://yoursite.com/the.pdf">Download PDF</a>.</p>
-    </embed>
+<object data="https://github.com/kauevestena/snav/blob/master/map/current_version.pdf" type="application/pdf" width="700px" height="700px"> HERE
 </object>

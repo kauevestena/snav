@@ -246,7 +246,9 @@ for i in range(0,len(best_epochs_metrics),5):
     figpath = os.path.join(outdir,fignames[j])
 
     curr_df = pd.concat(best_epochs_metrics[i:i+5],axis=1)
-    curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    # for pt-br
+    # curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    curr_df.columns = ['H.R.','P.P.V.','Sens.','F1','IoU']
 
     ax =   curr_df.boxplot(grid=False,showmeans=True,meanprops={"marker":'o','markerfacecolor':'r'})
 
@@ -285,7 +287,9 @@ for i in range(0,len(best_epochs_metrics),5):
     figpath = os.path.join(outdir,fignames[j])
 
     curr_df = pd.concat(best_epochs_metrics[i:i+5],axis=1)
-    curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    # for pt-br
+    # curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    curr_df.columns = ['H.R.','P.P.V.','Sens.','F1','IoU']
 
     ax =   curr_df.sort_values(curr_df.columns[4]).plot()
 
@@ -318,7 +322,9 @@ for i in range(0,len(best_epochs_metrics),5):
     figpath = os.path.join(outdir,fignames[j])
 
     curr_df = pd.concat(best_epochs_metrics[i:i+5],axis=1)
-    curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    # for pt-br
+    # curr_df.columns = ['T.A','V.P.P.','Sens.','F1','IoU']
+    curr_df.columns = ['H.R.','P.P.V.','Sens.','F1','IoU']
 
     ax =   curr_df.plot.hist(alpha=0.8)
     plt.ylabel('count')
