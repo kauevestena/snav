@@ -8,6 +8,7 @@ REDES NEURAIS CONVOLUCIONAIS"
 
 [and the English paper, DOI 10.11137/1982-3908_2022_45_46008, is available here](https://doi.org/10.11137/1982-3908_2022_45_46008)
 
+[The final presentation, pt-br only is available here](https://docs.google.com/presentation/d/1ujlQ79LlaVlmiHPEMwqyyw2bRfyhnE5xAZuIRZW0RfI/edit?usp=sharing)
 
 Results of the latest CNN for vegetation classification (on youtube):
 
