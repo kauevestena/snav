@@ -1,8 +1,6 @@
-Repo Of my master Thesis, and all the Files for the project that ended up with the title (pt-br only)
+Repo Of my master Thesis, and all the Files for the project that ended up with the title (translated from portuguese)
 
-"DESENVOLVIMENTO DE UM SISTEMA DE MAPEAMENTO MÓVEL TERRESTRE
-DE BAIXO CUSTO PARA DETECÇÃO DA VEGETAÇÃO URBANA USANDO
-REDES NEURAIS CONVOLUCIONAIS"
+"DEVELOPMENT OF A LOW-COST TERRESTRIAL MOBILE MAPPING SYSTEM FOR URBAN VEGETATION DETECTION USING CONVOLUTIONAL NEURAL NETWORKS"
 
 [The final text is available here (pt-br only)](https://acervodigital.ufpr.br/handle/1884/69658)
 
